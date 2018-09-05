@@ -3,6 +3,7 @@
 
 
 const hero = { x: 0, y: 0 };
+console.log(hero)
 
 // Brick placement
 const bricks = [
@@ -47,35 +48,36 @@ function lifeCountDown() {
 };
 
 // Brick rendering
-for (let i = 0; i < bricks.length; i++) {
-    const brick = bricks[i];
-    const brickElement = document.createElement('div');
-    brickElement.className = 'brick';
-    brickElement.style.left = (brick.x * 10).toString() + 'px';
-    brickElement.style.top = (brick.y * 10).toString() + 'px';
-    document.getElementsByClassName('board')[0].appendChild(brickElement);
-    // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+let brickElement = null;
+const renderBricks = function() {
+    for (let i = 0; i < bricks.length; i++) {
+        const brick = bricks[i];
+        const brickElement = document.createElement('div');
+        brickElement.className = 'brick';
+        brickElement.style.left = (brick.x * 10).toString() + 'px';
+        brickElement.style.top = (brick.y * 10).toString() + 'px';
+        document.getElementsByClassName('board')[0].appendChild(brickElement);
+        // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+    }
 };
+renderBricks();
+
 
 // Treasure rendering
-for (let i = 0; i < chests.length; i++) {
-    const chest = chests[i];
-    const chestElement = document.createElement('div');
-    chestElement.className = 'chest';
-    chestElement.style.left = (chest.x * 10).toString() + 'px';
-    chestElement.style.top = (chest.y * 10).toString() + 'px';
-    document.getElementsByClassName('board')[0].appendChild(chestElement);
-    // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+let chestElement = null;
+const renderChests = function() {
+    for (let i = 0; i < chests.length; i++) {
+        const chest = chests[i];
+        chestElement = document.createElement('div');
+        chestElement.className = 'chest chest-closed';
+        chestElement.style.left = (chest.x * 10).toString() + 'px';
+        chestElement.style.top = (chest.y * 10).toString() + 'px';
+        document.getElementsByClassName('board')[0].appendChild(chestElement);
+        // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+    }
 };
+renderChests();
 
-
-// Allows hero to move
-let moveHeroTo = function(x, y) {
-    const hero = document.getElementsByClassName('hero');
-    hero[0].style.top = (y * 10).toString() + 'px';
-    hero[0].style.left = (x * 10).toString() + 'px';
-    // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
-};
 
 // Sets coordinates of dungeon
 const isCoordinateInGrid = function(x, y) {
@@ -105,6 +107,17 @@ const isChestInCoordinate = function(x, y) {
         }
     }
     return false
+};
+
+// ADJUST THIS TO CHANGE PROPER ICON
+const changeChestClass = function(x, y) {
+    for (let i = 0; i < chests.length; i++) {
+        let chest = chests[i];
+        if (chest.x == x && chest.y == y) {
+            chest = chestElement;
+            console.log(chestElement)
+        }
+    }
 };
 
 // Add many riddles by changing (* n) in riddleNumber randoms.
@@ -182,7 +195,9 @@ function riddleScrolls() {
 function rightAnswer() {
     alert('Correct!') // Change alert and style accordingly
     lifeCountUp();
+    changeChestClass(hero.x, hero.y);
     scrollElement.style.display = 'none';
+
 
 }
 
@@ -191,7 +206,7 @@ function wrongAnswer() {
     scrollElement.style.display = 'none';
 }
 
-
+// THIS IS IMPORTANT!!!
 // Detect object in plot & collision detection
 const canMoveTo = function(x, y) {
     if (!isCoordinateInGrid(x, y)) {
@@ -203,6 +218,14 @@ const canMoveTo = function(x, y) {
     }
     return true;
 };
+
+// Allows hero to move
+let moveHeroTo = function(x, y) {
+    const hero = document.getElementsByClassName('hero');
+    hero[0].style.top = (y * 10).toString() + 'px';
+    hero[0].style.left = (x * 10).toString() + 'px';
+    // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+}
 
 // Movements
 function moveLeft() {
