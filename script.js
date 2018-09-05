@@ -13,7 +13,7 @@ const bricks = [
 
 // Treasure Chest placement
 const chests = [
-    { x: 4, y: 5 },
+    { x: 2, y: 1 },
     { x: 11, y: 8 },
     { x: 13, y: 7 }
 
@@ -24,6 +24,27 @@ const enemy = [
     { x: 7, y: 11 }
 
 ];
+
+// Life Count box
+const lifeBox = document.getElementsByClassName('js-score')
+
+// Triggers life counter up
+function lifeCountUp() {
+    let value = parseInt(lifeBox.value, 10);
+    value = isNaN(value) ? 2 : value;
+    value += 1
+    lifeBox.value = value;
+    lifeBox[0].innerHTML = value;
+};
+
+// Triggers life counter down
+function lifeCountDown() {
+    let value = parseInt(lifeBox.value, 10);
+    value = isNaN(value) ? 2 : value;
+    value -= 1
+    lifeBox.value = value;
+    lifeBox[0].innerHTML = value;
+};
 
 // Brick rendering
 for (let i = 0; i < bricks.length; i++) {
@@ -86,27 +107,102 @@ const isChestInCoordinate = function(x, y) {
     return false
 };
 
-// Collision prevention & detect object in plot
+// Add many riddles by changing (* n) in riddleNumber randoms.
+// Write all the riddles.
+// Riddles in treasure squares
+let scrollElement = null;
+
+function riddleScrolls() {
+    scrollElement = document.createElement('div');
+    scrollElement.className = 'scroll scroll-content';
+    const scrollButton1 = document.createElement('div');
+    scrollButton1.className = 'scroll-button';
+    const scrollButton2 = document.createElement('div');
+    scrollButton2.className = 'scroll-button';
+    const scrollButton3 = document.createElement('div');
+    scrollButton3.className = 'scroll-button';
+    const scrollButton4 = document.createElement('div');
+    scrollButton4.className = 'scroll-button';
+    let scrollText = null;
+    let scrollButtonText1 = null;
+    let scrollButtonText2 = null;
+    let scrollButtonText3 = null;
+    let scrollButtonText4 = null;
+    const riddleNumber = Math.floor(Math.random() * 3) // Chooses (out of 3) riddles at random
+    switch (riddleNumber) {
+        case 0:
+            scrollText = document.createTextNode('A riddle!');
+            scrollButtonText1 = document.createTextNode('Option A');
+            scrollButtonText2 = document.createTextNode('Option B');
+            scrollButtonText3 = document.createTextNode('Option C');
+            scrollButtonText4 = document.createTextNode('Option D');
+            scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', wrongAnswer) // To the proper function
+            break;
+        case 1:
+            scrollText = document.createTextNode('A riddle 2!');
+            scrollButtonText1 = document.createTextNode('Option A');
+            scrollButtonText2 = document.createTextNode('Option B');
+            scrollButtonText3 = document.createTextNode('Option C');
+            scrollButtonText4 = document.createTextNode('Option D');
+            scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', wrongAnswer) // To the proper function
+            break;
+        case 2:
+            scrollText = document.createTextNode('A riddle 3!');
+            scrollButtonText1 = document.createTextNode('Option A');
+            scrollButtonText2 = document.createTextNode('Option B');
+            scrollButtonText3 = document.createTextNode('Option C');
+            scrollButtonText4 = document.createTextNode('Option D');
+            scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', wrongAnswer) // To the proper function
+            break;
+        default:
+            console.log('Nada!')
+    }
+    scrollElement.appendChild(scrollText);
+    document.getElementsByClassName('board')[0].appendChild(scrollElement);
+    scrollButton1.appendChild(scrollButtonText1);
+    scrollElement.appendChild(scrollButton1);
+    scrollButton2.appendChild(scrollButtonText2);
+    scrollElement.appendChild(scrollButton2);
+    scrollButton3.appendChild(scrollButtonText3);
+    scrollElement.appendChild(scrollButton3);
+    scrollButton4.appendChild(scrollButtonText4);
+    scrollElement.appendChild(scrollButton4);
+
+}
+
+function rightAnswer() {
+    alert('Correct!') // Change alert and style accordingly
+    lifeCountUp();
+    scrollElement.style.display = 'none';
+
+}
+
+function wrongAnswer() {
+    alert('Wrong') // Change alert and style accordingly
+    scrollElement.style.display = 'none';
+}
+
+
+// Detect object in plot & collision detection
 const canMoveTo = function(x, y) {
     if (!isCoordinateInGrid(x, y)) {
         return false;
     } else if (isBrickInCoordinate(x, y)) {
         return false;
     } else if (isChestInCoordinate(x, y)) {
-        console.log('Treasure!')
+        riddleScrolls()
     }
     return true;
 };
-
-const removeChestAt = function(x, y) {
-    for (let i = 0; i < chests.length; i++) {
-        const chest = chests[i];
-        if (chest.x == x && chest.y == y) {
-            chests.splice(i, 1)
-        }
-    }
-}
-
 
 // Movements
 function moveLeft() {
