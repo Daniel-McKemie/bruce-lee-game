@@ -39,12 +39,12 @@ let chests = [
 
 // Enemy placement
 const enemies = [
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Gene Simmons
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Paul Stanley
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Ace Frehley
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Peter Criss
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Spaceman
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) } // Vinnie Vincent
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1), Name: 'Gene' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1), Name: 'Paul' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1), Name: 'Ace' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1), Name: 'Peter' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1), Name: 'Bruce' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1), Name: 'Vinnie' }
 
 ];
 
@@ -54,8 +54,8 @@ const enemyLifeBox = document.getElementsByClassName('enemy-hp js-hp');
 
 
 
-// Triggers life counter up
-function lifeCountUp(x) {
+// Hero's life
+function heroHP(x) {
     let value = parseInt(heroLifeBox.value, 10);
     value = isNaN(value) ? 0 : value;
     value += x
@@ -63,23 +63,14 @@ function lifeCountUp(x) {
     heroLifeBox[0].innerHTML = value;
 };
 
-// Triggers life counter down
-function lifeCountDown(x) {
-    let value = parseInt(heroLifeBox.value, 10);
+function enemyHP(x) {
+    let value = parseInt(enemyLifeBox.value, 10);
     value = isNaN(value) ? 0 : value;
-    value -= x
-    heroLifeBox.value = value;
-    heroLifeBox[0].innerHTML = value;
-};
+    value += x
+    enemyLifeBox.value = value;
+    enemyLifeBox[0].innerHTML = value;
 
-// function enemyHP(x) {
-//     let value = parseInt(enemyLifeBox.value, 10);
-//     value = isNaN(value) ? 2 : value;
-//     value += 60
-//     lifeBox.value = value;
-//     lifeBox[0].innerHTML = value;
-
-// }
+}
 
 
 // Brick rendering
@@ -116,7 +107,29 @@ const renderEnemies = function() {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         livingEnemyElement = document.createElement('div');
-        livingEnemyElement.className = 'enemy enemy-living';
+        livingEnemyElement.className = ('enemy enemy-living');
+        switch (enemy.Name) {
+            case 'Gene':
+                livingEnemyElement.id = ('gene');
+                break;
+            case 'Paul':
+                livingEnemyElement.id = ('paul');
+                break;
+            case 'Ace':
+                livingEnemyElement.id = ('ace');
+                break;
+            case 'Peter':
+                livingEnemyElement.id = ('peter');
+                break;
+            case 'Bruce':
+                livingEnemyElement.id = ('bruce');
+                break;
+            case 'Vinnie':
+                livingEnemyElement.id = ('vinnie');
+                break;
+            default:
+                console.log('No!')
+        }
         livingEnemyElement.style.left = (enemy.x * 10).toString() + 'px';
         livingEnemyElement.style.top = (enemy.y * 10).toString() + 'px';
         document.getElementsByClassName('board')[0].appendChild(livingEnemyElement);
@@ -127,6 +140,8 @@ const renderEnemies = function() {
 renderEnemies();
 
 // Prevent any two items from layering.  Preventative
+
+
 // hero layering built in to random locations of objects.
 function preventBrickLayering(x, y) { // Gives enemies priority
     for (let i = 0; i < bricks.length; i++) {
@@ -239,94 +254,25 @@ const changeEnemyClass = function(x, y) {
 }
 
 
-// Add many riddles by changing (* n) in riddleNumber randoms.
-// Write all the riddles.
-// Riddles in treasure squares
-
-let riddleElement = document.createElement('div')
-riddleElement.className = 'scroll scroll-content';
-let riddleText = null;
-const riddleButton1 = document.createElement('div');
-riddleButton1.className = 'scroll-button';
-const riddleButton2 = document.createElement('div');
-riddleButton2.className = 'scroll-button';
-const riddleButton3 = document.createElement('div');
-riddleButton3.className = 'scroll-button';
-const riddleButton4 = document.createElement('div');
-riddleButton4.className = 'scroll-button';
-
-
-// CREATE RIDDLE OBJECT THAT HAS riddle:, options:, and eventListener in switch determines correct answer
-
-function riddleScrolls() {
-    riddleElement = document.createElement('div');
-    riddleElement.className = 'scroll scroll-content';
-    const riddleNumber = Math.floor(Math.random() * 3) // Chooses (out of 3) riddles at random
-    switch (riddleNumber) {
+// Fill out possible treasure chest contents
+function treasureChest() {
+    let diceRoll = Math.floor(Math.random() * 2);
+    switch (diceRoll) {
         case 0:
-            riddleText = document.createTextNode('A riddle!');
-            riddleButtonText1 = document.createTextNode('Option A');
-            riddleButtonText2 = document.createTextNode('Option B');
-            riddleButtonText3 = document.createTextNode('Option C');
-            riddleButtonText4 = document.createTextNode('Option D');
-            riddleButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
-            riddleButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
-            riddleButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
-            riddleButton4.addEventListener('click', wrongAnswer) // To the proper function
+            heroHP(20);
             break;
         case 1:
-            riddleText = document.createTextNode('A riddle 2!');
-            riddleButtonText1 = document.createTextNode('Option A');
-            riddleButtonText2 = document.createTextNode('Option B');
-            riddleButtonText3 = document.createTextNode('Option C');
-            riddleButtonText4 = document.createTextNode('Option D');
-            riddleButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
-            riddleButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
-            riddleButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
-            riddleButton4.addEventListener('click', wrongAnswer) // To the proper function
+            heroHP(-3);
             break;
         case 2:
-            riddleText = document.createTextNode('A riddle 3!');
-            riddleButtonText1 = document.createTextNode('Option A');
-            riddleButtonText2 = document.createTextNode('Option B');
-            riddleButtonText3 = document.createTextNode('Option C');
-            riddleButtonText4 = document.createTextNode('Option D');
-            riddleButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
-            riddleButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
-            riddleButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
-            riddleButton4.addEventListener('click', wrongAnswer) // To the proper function
+            heroHP(5);
             break;
-        default:
-            console.log('Nada!')
     }
-    riddleElement.appendChild(riddleText);
-    document.getElementsByClassName('board')[0].appendChild(riddleElement);
-    riddleButton1.appendChild(riddleButtonText1);
-    riddleElement.appendChild(riddleButton1);
-    riddleButton2.appendChild(riddleButtonText2);
-    riddleElement.appendChild(riddleButton2);
-    riddleButton3.appendChild(riddleButtonText3);
-    riddleElement.appendChild(riddleButton3);
-    riddleButton4.appendChild(riddleButtonText4);
-    riddleElement.appendChild(riddleButton4);
 
 }
 
-// Right answer for riddle
-function rightAnswer() {
-    console.log('Correct!') // Change alert and style accordingly
-    lifeCountUp(35);
-    changeChestClass(hero.x, hero.y)
-    riddleElement.style.display = 'none';
 
-}
 
-// Wrong answer for riddle
-function wrongAnswer() {
-    console.log('Wrong') // Change alert and style accordingly
-    changeChestClass(hero.x, hero.y)
-    riddleElement.style.display = 'none';
-}
 
 // Bruce Lee's moves
 
@@ -346,6 +292,22 @@ function dragonStomp() {
     console.log('Dragonstomp!')
 }
 
+let fightElement = document.createElement('div')
+fightElement.className = 'scroll scroll-content';
+let fightText = null;
+const fightButton1 = document.createElement('div');
+fightButton1.className = 'scroll-button';
+const fightButton2 = document.createElement('div');
+fightButton2.className = 'scroll-button';
+const fightButton3 = document.createElement('div');
+fightButton3.className = 'scroll-button';
+const fightButton4 = document.createElement('div');
+fightButton4.className = 'scroll-button';
+let fightButtonText1 = document.createTextNode('Punch');
+let fightButtonText2 = document.createTextNode('Low Kick');
+let fightButtonText3 = document.createTextNode('Roundhouse');
+let fightButtonText4 = document.createTextNode('Dragonstomp');
+
 // Fighting scenes
 function geneSimmons() {
     fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career is mad about you making fun of his band.  Get ready to battle!!!');
@@ -359,22 +321,63 @@ function geneSimmons() {
     fightElement.appendChild(fightButton3);
     fightButton4.appendChild(fightButtonText4);
     fightElement.appendChild(fightButton4);
-    
+    enemyHP(60)
+
+
 
     fightButton1.addEventListener('click', function() {
-        const diceRoll = Math.floor(Math.random() * 1)
+        const diceRoll = Math.floor(Math.random() * 2)
         switch (diceRoll) {
             case 0:
-                
+                enemyHP(-20)
+                break;
             case 1:
-                console.log('Missed!')
+                enemyHP(-5)
+                break;
+            default:
+                console.log('No!')
         }
-        
-
     })
-    fightButton2.addEventListener('click', geneKick)
-    fightButton3.addEventListener('click', geneRoundhouse)
-    fightButton4.addEventListener('click', geneDragonStomp)
+
+    fightButton2.addEventListener('click', function() {
+        const diceRoll = Math.floor(Math.random() * 2)
+        switch (diceRoll) {
+            case 0:
+                enemyHP(-20)
+                break;
+            case 1:
+                enemyHP(-5)
+                break;
+            default:
+                console.log('No!')
+        }
+    })
+    fightButton3.addEventListener('click', function() {
+        const diceRoll = Math.floor(Math.random() * 2)
+        switch (diceRoll) {
+            case 0:
+                enemyHP(-20)
+                break;
+            case 1:
+                enemyHP(-5)
+                break;
+            default:
+                console.log('No!')
+        }
+    })
+    fightButton4.addEventListener('click', function() {
+        const diceRoll = Math.floor(Math.random() * 2)
+        switch (diceRoll) {
+            case 0:
+                enemyHP(-20)
+                break;
+            case 1:
+                enemyHP(-5)
+                break;
+            default:
+                console.log('No!')
+        }
+    })
 }
 
 function paulStanley() {
@@ -452,48 +455,37 @@ function vinnieVincent() {
 
 }
 
-
-let fightElement = document.createElement('div')
-fightElement.className = 'scroll scroll-content';
-let fightText = null;
-const fightButton1 = document.createElement('div');
-fightButton1.className = 'scroll-button';
-const fightButton2 = document.createElement('div');
-fightButton2.className = 'scroll-button';
-const fightButton3 = document.createElement('div');
-fightButton3.className = 'scroll-button';
-const fightButton4 = document.createElement('div');
-fightButton4.className = 'scroll-button';
-let fightButtonText1 = document.createTextNode('Punch');
-let fightButtonText2 = document.createTextNode('Low Kick');
-let fightButtonText3 = document.createTextNode('Roundhouse');
-let fightButtonText4 = document.createTextNode('Dragonstomp');
-
-function enemyFight() {
-    const enemyNumber = Math.floor(Math.random() * 5) // Chooses (out of 3) riddles at random
-    switch (enemyNumber) {
-        case 0:
-            geneSimmons();
-            break;
-        case 1:
-            paulStanley();
-            break;
-        case 2:
-            aceFrehley();
-            break;
-        case 3:
-            peterCriss()
-            break;
-        case 4:
-            bruceKulick()
-            break;
-        case 5:
-            vinnieVincent();
-            break;
-        default:
-            console.log('Nada!')
+// Sends to appropriate fight scene
+function enemyFight(x, y) {
+    for (let i = 0; i < enemies.length; i++) {
+        const enemy = enemies[i];
+        if (enemy.x == x && enemy.y == y) {
+            switch (enemy.Name) {
+                case 'Gene':
+                    geneSimmons();
+                    break;
+                case 'Paul':
+                    paulStanley();
+                    break;
+                case 'Ace':
+                    aceFrehley();
+                    break;
+                case 'Peter':
+                    peterCriss()
+                    break;
+                case 'Bruce':
+                    bruceKulick()
+                    break;
+                case 'Vinnie':
+                    vinnieVincent();
+                    break;
+                default:
+                    console.log('Nada!')
+            }
+        }
     }
 }
+
 
 // Allows hero to move
 const moveHeroTo = function(x, y) {
@@ -503,9 +495,6 @@ const moveHeroTo = function(x, y) {
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
         changeChestClass(x, y);
-    }
-    if (isEnemyInCoordinate(x, y)) {
-        changeEnemyClass(x, y);
     }
 }
 
@@ -517,9 +506,9 @@ const canMoveTo = function(x, y) {
     } else if (isBrickInCoordinate(x, y)) {
         return false;
     } else if (isChestInCoordinate(x, y)) {
-        riddleScrolls();
+        treasureChest();
     } else if (isEnemyInCoordinate(x, y)) {
-        enemyFight();
+        enemyFight(x, y);
     }
     return true
 };
