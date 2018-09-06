@@ -49,25 +49,38 @@ const enemies = [
 ];
 
 // Life Count box
-const lifeBox = document.getElementsByClassName('hp js-hp')
+const heroLifeBox = document.getElementsByClassName('hero-hp js-hp');
+const enemyLifeBox = document.getElementsByClassName('enemy-hp js-hp');
+
+
 
 // Triggers life counter up
 function lifeCountUp(x) {
-    let value = parseInt(lifeBox.value, 10);
-    value = isNaN(value) ? 2 : value;
+    let value = parseInt(heroLifeBox.value, 10);
+    value = isNaN(value) ? 0 : value;
     value += x
-    lifeBox.value = value;
-    lifeBox[0].innerHTML = value;
+    heroLifeBox.value = value;
+    heroLifeBox[0].innerHTML = value;
 };
 
 // Triggers life counter down
 function lifeCountDown(x) {
-    let value = parseInt(lifeBox.value, 10);
-    value = isNaN(value) ? 2 : value;
+    let value = parseInt(heroLifeBox.value, 10);
+    value = isNaN(value) ? 0 : value;
     value -= x
-    lifeBox.value = value;
-    lifeBox[0].innerHTML = value;
+    heroLifeBox.value = value;
+    heroLifeBox[0].innerHTML = value;
 };
+
+// function enemyHP(x) {
+//     let value = parseInt(enemyLifeBox.value, 10);
+//     value = isNaN(value) ? 2 : value;
+//     value += 60
+//     lifeBox.value = value;
+//     lifeBox[0].innerHTML = value;
+
+// }
+
 
 // Brick rendering
 const renderBricks = function() {
@@ -229,86 +242,82 @@ const changeEnemyClass = function(x, y) {
 // Add many riddles by changing (* n) in riddleNumber randoms.
 // Write all the riddles.
 // Riddles in treasure squares
-let fightElement = document.createElement('div')
-fightElement.className = 'scroll scroll-content';
-let fightText = null;
-const fightButton1 = document.createElement('div');
-fightButton1.className = 'scroll-button';
-const fightButton2 = document.createElement('div');
-fightButton2.className = 'scroll-button';
-const fightButton3 = document.createElement('div');
-fightButton3.className = 'scroll-button';
-const fightButton4 = document.createElement('div');
-fightButton4.className = 'scroll-button';
-fightButton1.addEventListener('click', punch)
-fightButton2.addEventListener('click', lowKick)
-fightButton3.addEventListener('click', roundHouse)
-fightButton4.addEventListener('click', dragonStomp)
-let fightButtonText1 = document.createTextNode('Punch');
-let fightButtonText2 = document.createTextNode('Low Kick');
-let fightButtonText3 = document.createTextNode('Roundhouse');
-let fightButtonText4 = document.createTextNode('Dragonstomp');
+
+let riddleElement = document.createElement('div')
+riddleElement.className = 'scroll scroll-content';
+let riddleText = null;
+const riddleButton1 = document.createElement('div');
+riddleButton1.className = 'scroll-button';
+const riddleButton2 = document.createElement('div');
+riddleButton2.className = 'scroll-button';
+const riddleButton3 = document.createElement('div');
+riddleButton3.className = 'scroll-button';
+const riddleButton4 = document.createElement('div');
+riddleButton4.className = 'scroll-button';
+
+
+// CREATE RIDDLE OBJECT THAT HAS riddle:, options:, and eventListener in switch determines correct answer
 
 function riddleScrolls() {
-    scrollElement = document.createElement('div');
-    scrollElement.className = 'scroll scroll-content';
+    riddleElement = document.createElement('div');
+    riddleElement.className = 'scroll scroll-content';
     const riddleNumber = Math.floor(Math.random() * 3) // Chooses (out of 3) riddles at random
     switch (riddleNumber) {
         case 0:
-            scrollText = document.createTextNode('A riddle!');
+            riddleText = document.createTextNode('A riddle!');
             riddleButtonText1 = document.createTextNode('Option A');
             riddleButtonText2 = document.createTextNode('Option B');
             riddleButtonText3 = document.createTextNode('Option C');
             riddleButtonText4 = document.createTextNode('Option D');
-            scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', wrongAnswer) // To the proper function
+            riddleButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
+            riddleButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
+            riddleButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
+            riddleButton4.addEventListener('click', wrongAnswer) // To the proper function
             break;
         case 1:
-            scrollText = document.createTextNode('A riddle 2!');
+            riddleText = document.createTextNode('A riddle 2!');
             riddleButtonText1 = document.createTextNode('Option A');
             riddleButtonText2 = document.createTextNode('Option B');
             riddleButtonText3 = document.createTextNode('Option C');
             riddleButtonText4 = document.createTextNode('Option D');
-            scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', wrongAnswer) // To the proper function
+            riddleButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
+            riddleButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
+            riddleButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
+            riddleButton4.addEventListener('click', wrongAnswer) // To the proper function
             break;
         case 2:
-            scrollText = document.createTextNode('A riddle 3!');
+            riddleText = document.createTextNode('A riddle 3!');
             riddleButtonText1 = document.createTextNode('Option A');
             riddleButtonText2 = document.createTextNode('Option B');
             riddleButtonText3 = document.createTextNode('Option C');
             riddleButtonText4 = document.createTextNode('Option D');
-            scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', wrongAnswer) // To the proper function
+            riddleButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
+            riddleButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
+            riddleButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
+            riddleButton4.addEventListener('click', wrongAnswer) // To the proper function
             break;
         default:
             console.log('Nada!')
     }
-    scrollElement.appendChild(scrollText);
-    document.getElementsByClassName('board')[0].appendChild(scrollElement);
-    scrollButton1.appendChild(riddleButtonText1);
-    scrollElement.appendChild(scrollButton1);
-    scrollButton2.appendChild(riddleButtonText2);
-    scrollElement.appendChild(scrollButton2);
-    scrollButton3.appendChild(riddleButtonText3);
-    scrollElement.appendChild(scrollButton3);
-    scrollButton4.appendChild(riddleButtonText4);
-    scrollElement.appendChild(scrollButton4);
+    riddleElement.appendChild(riddleText);
+    document.getElementsByClassName('board')[0].appendChild(riddleElement);
+    riddleButton1.appendChild(riddleButtonText1);
+    riddleElement.appendChild(riddleButton1);
+    riddleButton2.appendChild(riddleButtonText2);
+    riddleElement.appendChild(riddleButton2);
+    riddleButton3.appendChild(riddleButtonText3);
+    riddleElement.appendChild(riddleButton3);
+    riddleButton4.appendChild(riddleButtonText4);
+    riddleElement.appendChild(riddleButton4);
 
 }
 
 // Right answer for riddle
 function rightAnswer() {
     console.log('Correct!') // Change alert and style accordingly
-    lifeCountUp();
+    lifeCountUp(35);
     changeChestClass(hero.x, hero.y)
-    scrollElement.style.display = 'none';
+    riddleElement.style.display = 'none';
 
 }
 
@@ -316,7 +325,25 @@ function rightAnswer() {
 function wrongAnswer() {
     console.log('Wrong') // Change alert and style accordingly
     changeChestClass(hero.x, hero.y)
-    scrollElement.style.display = 'none';
+    riddleElement.style.display = 'none';
+}
+
+// Bruce Lee's moves
+
+function punch() {
+    console.log('Punch')
+}
+
+function lowKick() {
+    console.log('Low Kick')
+}
+
+function roundHouse() {
+    console.log('Roundhouse!')
+}
+
+function dragonStomp() {
+    console.log('Dragonstomp!')
 }
 
 // Fighting scenes
@@ -332,8 +359,22 @@ function geneSimmons() {
     fightElement.appendChild(fightButton3);
     fightButton4.appendChild(fightButtonText4);
     fightElement.appendChild(fightButton4);
+    
 
+    fightButton1.addEventListener('click', function() {
+        const diceRoll = Math.floor(Math.random() * 1)
+        switch (diceRoll) {
+            case 0:
+                
+            case 1:
+                console.log('Missed!')
+        }
+        
 
+    })
+    fightButton2.addEventListener('click', geneKick)
+    fightButton3.addEventListener('click', geneRoundhouse)
+    fightButton4.addEventListener('click', geneDragonStomp)
 }
 
 function paulStanley() {
@@ -412,22 +453,21 @@ function vinnieVincent() {
 }
 
 
-// Bruce Lee's moves
-function punch() {
-    console.log('Punch')
-}
-
-function lowKick() {
-    console.log('Low Kick')
-}
-
-function roundHouse() {
-    console.log('Roundhouse!')
-}
-
-function dragonStomp() {
-    console.log('Dragonstomp!')
-}
+let fightElement = document.createElement('div')
+fightElement.className = 'scroll scroll-content';
+let fightText = null;
+const fightButton1 = document.createElement('div');
+fightButton1.className = 'scroll-button';
+const fightButton2 = document.createElement('div');
+fightButton2.className = 'scroll-button';
+const fightButton3 = document.createElement('div');
+fightButton3.className = 'scroll-button';
+const fightButton4 = document.createElement('div');
+fightButton4.className = 'scroll-button';
+let fightButtonText1 = document.createTextNode('Punch');
+let fightButtonText2 = document.createTextNode('Low Kick');
+let fightButtonText3 = document.createTextNode('Roundhouse');
+let fightButtonText4 = document.createTextNode('Dragonstomp');
 
 function enemyFight() {
     const enemyNumber = Math.floor(Math.random() * 5) // Chooses (out of 3) riddles at random
