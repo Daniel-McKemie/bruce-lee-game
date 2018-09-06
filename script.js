@@ -26,10 +26,11 @@ const bricks = [
 
 ];
 
-
-
 // Treasure Chest placement
 let chests = [
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
     { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
     { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
     { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }
@@ -38,8 +39,12 @@ let chests = [
 
 // Enemy placement
 const enemies = [
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Gene Simmons
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Paul Stanley
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Ace Frehley
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Peter Criss
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }, // Spaceman
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) } // Vinnie Vincent
 
 ];
 
@@ -47,24 +52,22 @@ const enemies = [
 const lifeBox = document.getElementsByClassName('js-score')
 
 // Triggers life counter up
-function lifeCountUp() {
+function lifeCountUp(x) {
     let value = parseInt(lifeBox.value, 10);
     value = isNaN(value) ? 2 : value;
-    value += 1
+    value += x
     lifeBox.value = value;
     lifeBox[0].innerHTML = value;
 };
 
 // Triggers life counter down
-function lifeCountDown() {
+function lifeCountDown(x) {
     let value = parseInt(lifeBox.value, 10);
     value = isNaN(value) ? 2 : value;
-    value -= 1
+    value -= x
     lifeBox.value = value;
     lifeBox[0].innerHTML = value;
 };
-
-
 
 // Brick rendering
 const renderBricks = function() {
@@ -110,8 +113,21 @@ const renderEnemies = function() {
 };
 renderEnemies();
 
-function preventLayering(x, y) {
-    for (let i = 0; i < chests.length; i++) { // remove chests colliding with bricks
+// Prevent any two items from layering.  Preventative
+// hero layering built in to random locations of objects.
+function preventBrickLayering(x, y) { // Gives enemies priority
+    for (let i = 0; i < bricks.length; i++) {
+        const brick = bricks[i];
+        if (brick.x == x && brick.y == y) {
+            doneBrick = document.getElementsByClassName('brick');
+            doneBrick[i].remove()
+            bricks.splice(i, 1);
+        }
+    }
+}
+
+function preventChestLayering(x,y) {
+    for (let i = 0; i < chests.length; i++) { 
         const chest = chests[i];
         if (chest.x == x && chest.y == y) {
             doneChest = document.getElementsByClassName('chest chest-closed');
@@ -119,23 +135,16 @@ function preventLayering(x, y) {
             chests.splice(i, 1);
         }
     }
-    for (let i = 0; i < enemies.length; i++) { // remove enemies colliding with bricks
-        const enemy = enemies[i];
-        if (enemy.x == x && enemy.y == y) {
-            doneEnemy = document.getElementsByClassName('enemy enemy-living');
-            doneEnemy[i].remove()
-            enemies.splice(i, 1);
-        }
-    }
 }
 
 
-for (let i = 0; i < bricks.length; i++) {
-    preventLayering(bricks[i].x, bricks[i].y)
+for (let i = 0; i < enemies.length; i++) {
+    preventBrickLayering(enemies[i].x, enemies[i].y)
+    preventChestLayering(enemies[i].x, enemies[i].y)
 };
 
 for (let i = 0; i < chests.length; i++) {
-    preventLayering(chests[i].x, chests[i].y)
+    preventBrickLayering(chests[i].x, chests[i].y)
 };
 
 
@@ -182,9 +191,6 @@ const isEnemyInCoordinate = function(x, y) {
 };
 
 
-
-
-
 // Changes chest from close to open
 const changeChestClass = function(x, y) {
     for (let i = 0; i < chests.length; i++) {
@@ -202,11 +208,41 @@ const changeChestClass = function(x, y) {
     }
 }
 
+// Changes enemy from living to dead
+const changeEnemyClass = function(x, y) {
+    for (let i = 0; i < enemies.length; i++) {
+        const enemy = enemies[i];
+        if (enemy.x == x && enemy.y == y) {
+            doneEnemy = document.getElementsByClassName('enemy enemy-living');
+            doneEnemy[i].remove()
+            enemies.splice(i, 1);
+            deadEnemyElement = document.createElement('div');
+            deadEnemyElement.className = 'enemy enemy-dead';
+            deadEnemyElement.style.left = (enemy.x * 10).toString() + 'px';
+            deadEnemyElement.style.top = (enemy.y * 10).toString() + 'px';
+            document.getElementsByClassName('board')[0].appendChild(deadEnemyElement);
+        }
+    }
+}
 
 
 // Add many riddles by changing (* n) in riddleNumber randoms.
 // Write all the riddles.
 // Riddles in treasure squares
+let scrollElement = null;
+const scrollButton1 = document.createElement('div');
+scrollButton1.className = 'scroll-button';
+const scrollButton2 = document.createElement('div');
+scrollButton2.className = 'scroll-button';
+const scrollButton3 = document.createElement('div');
+scrollButton3.className = 'scroll-button';
+const scrollButton4 = document.createElement('div');
+scrollButton4.className = 'scroll-button';
+const scrollText = null;
+const fightButtonText1 = null;
+const fightButtonText2 = null;
+const fightButtonText3 = null;
+const fightButtonText4 = null;
 
 function riddleScrolls() {
     scrollElement = document.createElement('div');
@@ -291,8 +327,122 @@ function wrongAnswer() {
     scrollElement.style.display = 'none';
 }
 
+// Fighting scenes
+function geneSimmons() {
+    
+}
+
+function paulStanley() {
+
+}
+
+function aceFrehley() {
+
+}
+
+function peterCriss() {
+
+}
+
+function spaceman() {
+
+}
+
+function vinnieVincent() {
+
+}
+
+
+// Bruce Lee's moves
+function punch() {
+    console.log('Punch')
+}
+
+function lowKick() {
+    console.log('Low Kick')
+}
+
+function roundHouse() {
+    console.log('Roundhouse!')
+}
+
+function dragonStomp() {
+    console.log('Dragonstomp!')
+}
+
 function enemyFight() {
-    console.log('ENEMY!')
+    scrollElement = document.createElement('div');
+    scrollElement.className = 'scroll scroll-content';
+    const scrollButton1 = document.createElement('div');
+    scrollButton1.className = 'scroll-button';
+    const scrollButton2 = document.createElement('div');
+    scrollButton2.className = 'scroll-button';
+    const scrollButton3 = document.createElement('div');
+    scrollButton3.className = 'scroll-button';
+    const scrollButton4 = document.createElement('div');
+    scrollButton4.className = 'scroll-button';
+    let scrollText = null;
+    let scrollButtonText1 = document.createTextNode('Punch');
+    let scrollButtonText2 = document.createTextNode('Low Kick');
+    let scrollButtonText3 = document.createTextNode('Roundhouse');
+    let scrollButtonText4 = document.createTextNode('Dragonstomp ');
+    const enemyNumber = Math.floor(Math.random() * 3) // Chooses (out of 3) riddles at random
+    switch (enemyNumber) {
+        case 0:
+            scrollText = document.createTextNode('Gene Simmons wants to throw down!');
+            scrollButton1.addEventListener('click', punch) 
+            scrollButton2.addEventListener('click', lowKick) 
+            scrollButton3.addEventListener('click', roundHouse) 
+            scrollButton4.addEventListener('click', dragonStomp)
+            break;
+        case 1:
+            scrollText = document.createTextNode('Paul Stanley');
+            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            break;
+        case 2:
+            scrollText = document.createTextNode('Ace Frehley');
+            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            break;
+        case 3:
+            scrollText = document.createTextNode('Peter Criss');
+            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            break;
+        case 4:
+            scrollText = document.createTextNode('Spaceman');
+            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            break;
+        case 5:
+            scrollText = document.createTextNode('Vinnie Vincent');
+            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
+            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
+            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
+            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            break;
+        default:
+            console.log('Nada!')
+    }
+    scrollElement.appendChild(scrollText);
+    document.getElementsByClassName('board')[0].appendChild(scrollElement);
+    scrollButton1.appendChild(scrollButtonText1);
+    scrollElement.appendChild(scrollButton1);
+    scrollButton2.appendChild(scrollButtonText2);
+    scrollElement.appendChild(scrollButton2);
+    scrollButton3.appendChild(scrollButtonText3);
+    scrollElement.appendChild(scrollButton3);
+    scrollButton4.appendChild(scrollButtonText4);
+    scrollElement.appendChild(scrollButton4);
 }
 
 // Allows hero to move
@@ -303,6 +453,8 @@ const moveHeroTo = function(x, y) {
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
         changeChestClass(x, y);
+    } if (isEnemyInCoordinate(x,y)) {
+        changeEnemyClass(x, y);
     }
 }
 

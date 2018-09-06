@@ -60,6 +60,10 @@ body {
     background-image: url('images/enemy-standing.png');
 }
 
+.enemy-dead {
+	background-image: url('images/santa.jpg')
+}
+
 .scroll {
     display: block;
     position: fixed;
