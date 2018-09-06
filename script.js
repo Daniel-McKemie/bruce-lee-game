@@ -49,7 +49,7 @@ const enemies = [
 ];
 
 // Life Count box
-const lifeBox = document.getElementsByClassName('js-score')
+const lifeBox = document.getElementsByClassName('hp js-hp')
 
 // Triggers life counter up
 function lifeCountUp(x) {
@@ -126,8 +126,8 @@ function preventBrickLayering(x, y) { // Gives enemies priority
     }
 }
 
-function preventChestLayering(x,y) {
-    for (let i = 0; i < chests.length; i++) { 
+function preventChestLayering(x, y) {
+    for (let i = 0; i < chests.length; i++) {
         const chest = chests[i];
         if (chest.x == x && chest.y == y) {
             doneChest = document.getElementsByClassName('chest chest-closed');
@@ -229,45 +229,37 @@ const changeEnemyClass = function(x, y) {
 // Add many riddles by changing (* n) in riddleNumber randoms.
 // Write all the riddles.
 // Riddles in treasure squares
-let scrollElement = null;
-const scrollButton1 = document.createElement('div');
-scrollButton1.className = 'scroll-button';
-const scrollButton2 = document.createElement('div');
-scrollButton2.className = 'scroll-button';
-const scrollButton3 = document.createElement('div');
-scrollButton3.className = 'scroll-button';
-const scrollButton4 = document.createElement('div');
-scrollButton4.className = 'scroll-button';
-const scrollText = null;
-const fightButtonText1 = null;
-const fightButtonText2 = null;
-const fightButtonText3 = null;
-const fightButtonText4 = null;
+let fightElement = document.createElement('div')
+fightElement.className = 'scroll scroll-content';
+let fightText = null;
+const fightButton1 = document.createElement('div');
+fightButton1.className = 'scroll-button';
+const fightButton2 = document.createElement('div');
+fightButton2.className = 'scroll-button';
+const fightButton3 = document.createElement('div');
+fightButton3.className = 'scroll-button';
+const fightButton4 = document.createElement('div');
+fightButton4.className = 'scroll-button';
+fightButton1.addEventListener('click', punch)
+fightButton2.addEventListener('click', lowKick)
+fightButton3.addEventListener('click', roundHouse)
+fightButton4.addEventListener('click', dragonStomp)
+let fightButtonText1 = document.createTextNode('Punch');
+let fightButtonText2 = document.createTextNode('Low Kick');
+let fightButtonText3 = document.createTextNode('Roundhouse');
+let fightButtonText4 = document.createTextNode('Dragonstomp');
 
 function riddleScrolls() {
     scrollElement = document.createElement('div');
     scrollElement.className = 'scroll scroll-content';
-    const scrollButton1 = document.createElement('div');
-    scrollButton1.className = 'scroll-button';
-    const scrollButton2 = document.createElement('div');
-    scrollButton2.className = 'scroll-button';
-    const scrollButton3 = document.createElement('div');
-    scrollButton3.className = 'scroll-button';
-    const scrollButton4 = document.createElement('div');
-    scrollButton4.className = 'scroll-button';
-    let scrollText = null;
-    let scrollButtonText1 = null;
-    let scrollButtonText2 = null;
-    let scrollButtonText3 = null;
-    let scrollButtonText4 = null;
     const riddleNumber = Math.floor(Math.random() * 3) // Chooses (out of 3) riddles at random
     switch (riddleNumber) {
         case 0:
             scrollText = document.createTextNode('A riddle!');
-            scrollButtonText1 = document.createTextNode('Option A');
-            scrollButtonText2 = document.createTextNode('Option B');
-            scrollButtonText3 = document.createTextNode('Option C');
-            scrollButtonText4 = document.createTextNode('Option D');
+            riddleButtonText1 = document.createTextNode('Option A');
+            riddleButtonText2 = document.createTextNode('Option B');
+            riddleButtonText3 = document.createTextNode('Option C');
+            riddleButtonText4 = document.createTextNode('Option D');
             scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
             scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
             scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
@@ -275,10 +267,10 @@ function riddleScrolls() {
             break;
         case 1:
             scrollText = document.createTextNode('A riddle 2!');
-            scrollButtonText1 = document.createTextNode('Option A');
-            scrollButtonText2 = document.createTextNode('Option B');
-            scrollButtonText3 = document.createTextNode('Option C');
-            scrollButtonText4 = document.createTextNode('Option D');
+            riddleButtonText1 = document.createTextNode('Option A');
+            riddleButtonText2 = document.createTextNode('Option B');
+            riddleButtonText3 = document.createTextNode('Option C');
+            riddleButtonText4 = document.createTextNode('Option D');
             scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
             scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
             scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
@@ -286,10 +278,10 @@ function riddleScrolls() {
             break;
         case 2:
             scrollText = document.createTextNode('A riddle 3!');
-            scrollButtonText1 = document.createTextNode('Option A');
-            scrollButtonText2 = document.createTextNode('Option B');
-            scrollButtonText3 = document.createTextNode('Option C');
-            scrollButtonText4 = document.createTextNode('Option D');
+            riddleButtonText1 = document.createTextNode('Option A');
+            riddleButtonText2 = document.createTextNode('Option B');
+            riddleButtonText3 = document.createTextNode('Option C');
+            riddleButtonText4 = document.createTextNode('Option D');
             scrollButton1.addEventListener('click', rightAnswer) // One of these listeners sends to the correct answer
             scrollButton2.addEventListener('click', wrongAnswer) // The rest sent to wrong answer
             scrollButton3.addEventListener('click', wrongAnswer) // Assign these buttons accordingly
@@ -300,13 +292,13 @@ function riddleScrolls() {
     }
     scrollElement.appendChild(scrollText);
     document.getElementsByClassName('board')[0].appendChild(scrollElement);
-    scrollButton1.appendChild(scrollButtonText1);
+    scrollButton1.appendChild(riddleButtonText1);
     scrollElement.appendChild(scrollButton1);
-    scrollButton2.appendChild(scrollButtonText2);
+    scrollButton2.appendChild(riddleButtonText2);
     scrollElement.appendChild(scrollButton2);
-    scrollButton3.appendChild(scrollButtonText3);
+    scrollButton3.appendChild(riddleButtonText3);
     scrollElement.appendChild(scrollButton3);
-    scrollButton4.appendChild(scrollButtonText4);
+    scrollButton4.appendChild(riddleButtonText4);
     scrollElement.appendChild(scrollButton4);
 
 }
@@ -329,26 +321,93 @@ function wrongAnswer() {
 
 // Fighting scenes
 function geneSimmons() {
-    
+    fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career is mad about you making fun of his band.  Get ready to battle!!!');
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
+
+
 }
 
 function paulStanley() {
+    fightText = document.createTextNode('Paul Stanley descended upon you like a star falling from the sky!')
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
 
 }
 
 function aceFrehley() {
+    fightText = document.createTextNode('That\'s not Sting...That\'s Ace Frehley! And he\'s ready to rumble!')
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
 
 }
 
 function peterCriss() {
+    fightText = document.createTextNode('This weird cat lookin\' dude just hit you with his drumstick!  Peter Criss wants to fight!');
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
 
 }
 
-function spaceman() {
+function bruceKulick() {
+    fightText = document.createTextNode('Oh I guess this guy was mostly in the band after they quit wearing makeup...Bruce Kulick squares up... ');
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
 
 }
 
 function vinnieVincent() {
+    fightText = document.createTextNode('Vinnie Vincent (yeah, the guy in makeup taht no one actually knew was in the band) wants to throw down! ');
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
 
 }
 
@@ -371,78 +430,29 @@ function dragonStomp() {
 }
 
 function enemyFight() {
-    scrollElement = document.createElement('div');
-    scrollElement.className = 'scroll scroll-content';
-    const scrollButton1 = document.createElement('div');
-    scrollButton1.className = 'scroll-button';
-    const scrollButton2 = document.createElement('div');
-    scrollButton2.className = 'scroll-button';
-    const scrollButton3 = document.createElement('div');
-    scrollButton3.className = 'scroll-button';
-    const scrollButton4 = document.createElement('div');
-    scrollButton4.className = 'scroll-button';
-    let scrollText = null;
-    let scrollButtonText1 = document.createTextNode('Punch');
-    let scrollButtonText2 = document.createTextNode('Low Kick');
-    let scrollButtonText3 = document.createTextNode('Roundhouse');
-    let scrollButtonText4 = document.createTextNode('Dragonstomp ');
-    const enemyNumber = Math.floor(Math.random() * 3) // Chooses (out of 3) riddles at random
+    const enemyNumber = Math.floor(Math.random() * 5) // Chooses (out of 3) riddles at random
     switch (enemyNumber) {
         case 0:
-            scrollText = document.createTextNode('Gene Simmons wants to throw down!');
-            scrollButton1.addEventListener('click', punch) 
-            scrollButton2.addEventListener('click', lowKick) 
-            scrollButton3.addEventListener('click', roundHouse) 
-            scrollButton4.addEventListener('click', dragonStomp)
+            geneSimmons();
             break;
         case 1:
-            scrollText = document.createTextNode('Paul Stanley');
-            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            paulStanley();
             break;
         case 2:
-            scrollText = document.createTextNode('Ace Frehley');
-            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            aceFrehley();
             break;
         case 3:
-            scrollText = document.createTextNode('Peter Criss');
-            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            peterCriss()
             break;
         case 4:
-            scrollText = document.createTextNode('Spaceman');
-            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            bruceKulick()
             break;
         case 5:
-            scrollText = document.createTextNode('Vinnie Vincent');
-            scrollButton1.addEventListener('click', punch) // One of these listeners sends to the correct answer
-            scrollButton2.addEventListener('click', lowKick) // The rest sent to wrong answer
-            scrollButton3.addEventListener('click', roundHouse) // Assign these buttons accordingly
-            scrollButton4.addEventListener('click', dragonStomp) // To the proper function
+            vinnieVincent();
             break;
         default:
             console.log('Nada!')
     }
-    scrollElement.appendChild(scrollText);
-    document.getElementsByClassName('board')[0].appendChild(scrollElement);
-    scrollButton1.appendChild(scrollButtonText1);
-    scrollElement.appendChild(scrollButton1);
-    scrollButton2.appendChild(scrollButtonText2);
-    scrollElement.appendChild(scrollButton2);
-    scrollButton3.appendChild(scrollButtonText3);
-    scrollElement.appendChild(scrollButton3);
-    scrollButton4.appendChild(scrollButtonText4);
-    scrollElement.appendChild(scrollButton4);
 }
 
 // Allows hero to move
@@ -453,7 +463,8 @@ const moveHeroTo = function(x, y) {
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
         changeChestClass(x, y);
-    } if (isEnemyInCoordinate(x,y)) {
+    }
+    if (isEnemyInCoordinate(x, y)) {
         changeEnemyClass(x, y);
     }
 }
