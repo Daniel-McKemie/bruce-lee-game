@@ -3,26 +3,33 @@
 
 
 const hero = { x: 0, y: 0 };
-console.log(hero)
+// For controlled random, set ranges to each object to avoid collisions
 
 // Brick placement
 const bricks = [
-    { x: 1, y: 1 },
-    { x: 15, y: 11 },
-    { x: 6, y: 8 }
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) }
 ];
 
+
+
 // Treasure Chest placement
-const chests = [
-    { x: 2, y: 1 },
-    { x: 11, y: 8 },
-    { x: 13, y: 7 }
+let chests = [
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
+    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) }
 
 ];
 
 // Enemy placement
-const enemy = [
-    { x: 7, y: 11 }
+const enemies = [
+    { x: 7, y: 11 }, 
+    { x: 6, y: 9 }
 
 ];
 
@@ -47,8 +54,9 @@ function lifeCountDown() {
     lifeBox[0].innerHTML = value;
 };
 
+
+
 // Brick rendering
-let brickElement = null;
 const renderBricks = function() {
     for (let i = 0; i < bricks.length; i++) {
         const brick = bricks[i];
@@ -63,21 +71,34 @@ const renderBricks = function() {
 renderBricks();
 
 
-// Treasure rendering
-let chestElement = null;
+// Treasure chest rendering
 const renderChests = function() {
     for (let i = 0; i < chests.length; i++) {
         const chest = chests[i];
-        chestElement = document.createElement('div');
-        chestElement.className = 'chest chest-closed';
-        chestElement.style.left = (chest.x * 10).toString() + 'px';
-        chestElement.style.top = (chest.y * 10).toString() + 'px';
-        document.getElementsByClassName('board')[0].appendChild(chestElement);
+        closedChestElement = document.createElement('div');
+        closedChestElement.className = 'chest chest-closed';
+        closedChestElement.style.left = (chest.x * 10).toString() + 'px';
+        closedChestElement.style.top = (chest.y * 10).toString() + 'px';
+        document.getElementsByClassName('board')[0].appendChild(closedChestElement);
         // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     }
+
 };
 renderChests();
 
+const renderEnemies = function() {
+    for (let i = 0; i < enemies.length; i++) {
+        const enemy = enemies[i];
+        livingEnemyElement = document.createElement('div');
+        livingEnemyElement.className = 'enemy enemy-living';
+        livingEnemyElement.style.left = (enemy.x * 10).toString() + 'px';
+        livingEnemyElement.style.top = (enemy.y * 10).toString() + 'px';
+        document.getElementsByClassName('board')[0].appendChild(livingEnemyElement);
+        // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+    }
+
+};
+renderEnemies();
 
 // Sets coordinates of dungeon
 const isCoordinateInGrid = function(x, y) {
@@ -109,21 +130,42 @@ const isChestInCoordinate = function(x, y) {
     return false
 };
 
-// ADJUST THIS TO CHANGE PROPER ICON
-const changeChestClass = function(x, y) {
-    for (let i = 0; i < chests.length; i++) {
-        let chest = chests[i];
-        if (chest.x == x && chest.y == y) {
-            chest = chestElement;
-            console.log(chestElement)
+const isEnemyInCoordinate = function(x, y) {
+    for (let i = 0; i < enemies.length; i++) {
+        const enemy = enemies[i];
+        if (enemy.x == x && enemy.y == y) {
+            return true
         }
     }
+    return false
 };
+
+
+
+
+
+// Changes chest from close to open
+const changeChestClass = function(x, y) {
+    for (let i = 0; i < chests.length; i++) {
+        const chest = chests[i];
+        if (chest.x == x && chest.y == y) {
+            doneChest = document.getElementsByClassName('chest chest-closed');
+            doneChest[i].remove()
+            chests.splice(i, 1);
+            openChestElement = document.createElement('div');
+            openChestElement.className = 'chest chest-open';
+            openChestElement.style.left = (chest.x * 10).toString() + 'px';
+            openChestElement.style.top = (chest.y * 10).toString() + 'px';
+            document.getElementsByClassName('board')[0].appendChild(openChestElement);
+        }
+    }
+}
+
+
 
 // Add many riddles by changing (* n) in riddleNumber randoms.
 // Write all the riddles.
 // Riddles in treasure squares
-let scrollElement = null;
 
 function riddleScrolls() {
     scrollElement = document.createElement('div');
@@ -192,18 +234,35 @@ function riddleScrolls() {
 
 }
 
+// Right answer for riddle
 function rightAnswer() {
-    alert('Correct!') // Change alert and style accordingly
+    console.log('Correct!') // Change alert and style accordingly
     lifeCountUp();
-    changeChestClass(hero.x, hero.y);
+    changeChestClass(hero.x, hero.y)
     scrollElement.style.display = 'none';
-
 
 }
 
+// Wrong answer for riddle
 function wrongAnswer() {
-    alert('Wrong') // Change alert and style accordingly
+    console.log('Wrong') // Change alert and style accordingly
+    changeChestClass(hero.x, hero.y)
     scrollElement.style.display = 'none';
+}
+
+function enemyFight() {
+    console.log('ENEMY!')
+}
+
+// Allows hero to move
+const moveHeroTo = function(x, y) {
+    const hero = document.getElementsByClassName('hero');
+    hero[0].style.top = (y * 10).toString() + 'px';
+    hero[0].style.left = (x * 10).toString() + 'px';
+    // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
+    if (isChestInCoordinate(x, y)) {
+        changeChestClass(x, y);
+    }
 }
 
 // THIS IS IMPORTANT!!!
@@ -214,18 +273,14 @@ const canMoveTo = function(x, y) {
     } else if (isBrickInCoordinate(x, y)) {
         return false;
     } else if (isChestInCoordinate(x, y)) {
-        riddleScrolls()
+        riddleScrolls();
+    } else if (isEnemyInCoordinate(x,y)) {
+        enemyFight();
     }
-    return true;
+    return true
 };
 
-// Allows hero to move
-let moveHeroTo = function(x, y) {
-    const hero = document.getElementsByClassName('hero');
-    hero[0].style.top = (y * 10).toString() + 'px';
-    hero[0].style.left = (x * 10).toString() + 'px';
-    // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
-}
+
 
 // Movements
 function moveLeft() {
