@@ -7,29 +7,39 @@ const hero = { x: 0, y: 0 };
 
 // Brick placement
 const bricks = [
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) }
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
+    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 }
+
 ];
 
 
 
 // Treasure Chest placement
 let chests = [
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) },
-    { x: Math.floor(Math.random() * 19), y: Math.floor(Math.random() * 11) }
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }
 
 ];
 
 // Enemy placement
 const enemies = [
-    { x: 7, y: 11 }, 
-    { x: 6, y: 9 }
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
 
 ];
 
@@ -99,6 +109,37 @@ const renderEnemies = function() {
 
 };
 renderEnemies();
+
+function preventLayering(x, y) {
+    for (let i = 0; i < chests.length; i++) { // remove chests colliding with bricks
+        const chest = chests[i];
+        if (chest.x == x && chest.y == y) {
+            doneChest = document.getElementsByClassName('chest chest-closed');
+            doneChest[i].remove()
+            chests.splice(i, 1);
+        }
+    }
+    for (let i = 0; i < enemies.length; i++) { // remove enemies colliding with bricks
+        const enemy = enemies[i];
+        if (enemy.x == x && enemy.y == y) {
+            doneEnemy = document.getElementsByClassName('enemy enemy-living');
+            doneEnemy[i].remove()
+            enemies.splice(i, 1);
+        }
+    }
+}
+
+
+for (let i = 0; i < bricks.length; i++) {
+    preventLayering(bricks[i].x, bricks[i].y)
+};
+
+for (let i = 0; i < chests.length; i++) {
+    preventLayering(chests[i].x, chests[i].y)
+};
+
+
+
 
 // Sets coordinates of dungeon
 const isCoordinateInGrid = function(x, y) {
@@ -274,7 +315,7 @@ const canMoveTo = function(x, y) {
         return false;
     } else if (isChestInCoordinate(x, y)) {
         riddleScrolls();
-    } else if (isEnemyInCoordinate(x,y)) {
+    } else if (isEnemyInCoordinate(x, y)) {
         enemyFight();
     }
     return true
