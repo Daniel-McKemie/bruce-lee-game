@@ -46,16 +46,19 @@ const enemies = [
 const heroLifeBox = document.getElementsByClassName('hero-hp js-hp');
 const enemyLifeBox = document.getElementsByClassName('enemy-hp js-hp');
 
-
+let bruceLeeHP = 0;
+let kissArmyHP = 0;
 // Hero's life
-function heroHP(x) {
+let heroHP = function(x) {
     let value = parseInt(heroLifeBox.value, 10);
     value = isNaN(value) ? 0 : value;
     value += x
     heroLifeBox.value = value;
     heroLifeBox[0].innerHTML = value;
+    bruceLeeHP = value;
 };
 heroHP(30);
+
 
 function enemyHP(x) {
     let value = parseInt(enemyLifeBox.value, 10);
@@ -63,6 +66,7 @@ function enemyHP(x) {
     value += x
     enemyLifeBox.value = value;
     enemyLifeBox[0].innerHTML = value;
+    kissArmyHP = value;
 
 }
 
@@ -295,7 +299,6 @@ function appendFightButtons() {
     fightElement.appendChild(fightButton4);
 }
 
-
 let turn = 0;
 // Fighting scenes
 function heroTurn(enemy) {
@@ -305,25 +308,32 @@ function heroTurn(enemy) {
     if (turn % 2 === 0) {
         console.log('Your turn!')
         fightButton1.addEventListener('click', function() {
-            let heroDiceRoll = Math.floor(Math.random() * 2)
-            console.log(heroDiceRoll)
+            let heroDiceRoll = Math.floor(Math.random() * 6)
             switch (heroDiceRoll) {
                 case 0:
-                    enemyHP(-20);
-                    turn++
-                    enemyTurn(enemy);
-                    break;
                 case 1:
-                    enemyHP(-5);
-                    turn++
+                case 2:
+                case 3:
+                    alert('Hit!');
+                    enemyHP(-10);
+                    turn++;
                     enemyTurn(enemy);
                     break;
-                default:
-                    console.log('No!')
+                case 4:
+                    alert('Nice! Extra hard punch!')
+                    enemyHP(-15);
+                    turn++;
+                    enemyTurn(enemy);
+                    break;
+                case 5:
+                    alert('You missed!');
+                    turn++;
+                    enemyTurn(enemy);
+                    break;
             }
         })
         fightButton2.addEventListener('click', function() {
-            let diceRoll = Math.floor(Math.random() * 2)
+            let diceRoll = Math.floor(Math.random() * 4)
             switch (diceRoll) {
                 case 0:
                     enemyHP(-20);
@@ -381,14 +391,14 @@ function enemyTurn(enemy) {
             let geneDiceRoll = Math.floor(Math.random() * 2)
             switch (geneDiceRoll) {
                 case 0:
-                    console.log('You got hit!');
+                    alert('You got hit!')
                     heroHP(-20);
-                    turn++
+                    turn++;
                     break;
                 case 1:
-                    console.log('Gene hit soft!');
+                    alert('Got hit soft!')
                     heroHP(-5);
-                    turn++
+                    turn++;
                     break;
 
             }
@@ -475,6 +485,18 @@ function enemyTurn(enemy) {
             break;
 
     }
+    checkWinner()
+}
+
+function checkWinner() {
+    if (bruceLeeHP <= 0) {
+        alert('You died')
+        // write reset function
+    }
+    if (kissArmyHP <= 0) {
+        alert('Enemy died!')
+        changeEnemyClass(hero.x, hero.y)
+    }
 }
 
 // Sends to appropriate fight scene
@@ -485,7 +507,7 @@ function enemyFight(x, y) {
             switch (enemy.Name) {
                 case 'Gene':
                     heroTurn('Gene');
-                    enemyHP(60);
+                    enemyHP(10);
                     fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
                     appendFightButtons()
                     break;
@@ -535,6 +557,10 @@ const moveHeroTo = function(x, y) {
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
         changeChestClass(x, y);
+    }
+    if (isEnemyInCoordinate(x, y)) {
+        changeEnemyClass(x, y);
+
     }
 }
 
