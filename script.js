@@ -308,9 +308,7 @@ let fightButtonText2 = document.createTextNode('Low Kick');
 let fightButtonText3 = document.createTextNode('Roundhouse');
 let fightButtonText4 = document.createTextNode('Dragonstomp');
 
-// Fighting scenes
-function geneSimmons() {
-    fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career is mad about you making fun of his band.  Get ready to battle!!!');
+function appendFightButtons() {
     fightElement.appendChild(fightText);
     document.getElementsByClassName('board')[0].appendChild(fightElement);
     fightButton1.appendChild(fightButtonText1);
@@ -321,64 +319,104 @@ function geneSimmons() {
     fightElement.appendChild(fightButton3);
     fightButton4.appendChild(fightButtonText4);
     fightElement.appendChild(fightButton4);
-    enemyHP(60)
-
-
-
-    fightButton1.addEventListener('click', function() {
-        const diceRoll = Math.floor(Math.random() * 2)
-        switch (diceRoll) {
-            case 0:
-                enemyHP(-20)
-                break;
-            case 1:
-                enemyHP(-5)
-                break;
-            default:
-                console.log('No!')
-        }
-    })
-
-    fightButton2.addEventListener('click', function() {
-        const diceRoll = Math.floor(Math.random() * 2)
-        switch (diceRoll) {
-            case 0:
-                enemyHP(-20)
-                break;
-            case 1:
-                enemyHP(-5)
-                break;
-            default:
-                console.log('No!')
-        }
-    })
-    fightButton3.addEventListener('click', function() {
-        const diceRoll = Math.floor(Math.random() * 2)
-        switch (diceRoll) {
-            case 0:
-                enemyHP(-20)
-                break;
-            case 1:
-                enemyHP(-5)
-                break;
-            default:
-                console.log('No!')
-        }
-    })
-    fightButton4.addEventListener('click', function() {
-        const diceRoll = Math.floor(Math.random() * 2)
-        switch (diceRoll) {
-            case 0:
-                enemyHP(-20)
-                break;
-            case 1:
-                enemyHP(-5)
-                break;
-            default:
-                console.log('No!')
-        }
-    })
 }
+
+
+let turn = 0;
+// Fighting scenes
+function geneSimmonsHeroTurn() {
+    // Hero's Turn
+    // Fill out Listeners appropriately!!!
+    // FIX HeroHP
+    if (turn % 2 === 0) {
+        console.log('Your turn!')
+        fightButton1.addEventListener('click', function() {
+            let diceRoll = Math.floor(Math.random() * 2)
+            console.log(diceRoll)
+            switch (diceRoll) {
+                case 0:
+                    enemyHP(-20);
+                    turn++
+                    geneSimmonsEnemyTurn();
+                    break;
+                case 1:
+                    enemyHP(-5);
+                    turn++
+                    geneSimmonsEnemyTurn();
+                    break;
+                default:
+                    console.log('No!')
+            }
+        })
+        // fightButton2.addEventListener('click', function() {
+        //     let diceRoll = Math.floor(Math.random() * 2)
+        //     switch (diceRoll) {
+        //         case 0:
+        //             enemyHP(-20);
+        //             geneSimmonsHeroTurn()
+        //             break;
+        //         case 1:
+        //             enemyHP(-5);
+        //             geneSimmonsHeroTurn();
+        //             break;
+        //         default:
+        //             console.log('No!')
+        //     }
+        // })
+        // fightButton3.addEventListener('click', function() {
+        //     let diceRoll = Math.floor(Math.random() * 2)
+        //     switch (diceRoll) {
+        //         case 0:
+        //             enemyHP(-20);
+        //             geneSimmonsHeroTurn();
+        //             break;
+        //         case 1:
+        //             enemyHP(-5);
+        //             geneSimmonsHeroTurn();
+        //             break;
+        //         default:
+        //             console.log('No!')
+        //     }
+        // })
+        // fightButton4.addEventListener('click', function() {
+        //     let diceRoll = Math.floor(Math.random() * 2)
+        //     switch (diceRoll) {
+        //         case 0:
+        //             enemyHP(-20);
+        //             geneSimmonsHeroTurn();
+        //             break;
+        //         case 1:
+        //             enemyHP(-5);
+        //             geneSimmonsHeroTurn();
+        //             break;
+        //         default:
+        //             console.log('No!')
+        //     }
+        // })
+    } else if (turn !== 0) {
+        turn++
+        geneSimmonsEnemyTurn()
+    }
+}
+
+
+
+function geneSimmonsEnemyTurn() {
+    let diceRoll = Math.floor(Math.random() * 2)
+    switch (diceRoll) {
+        case 0:
+            console.log('You got hit!');
+            heroHP(-20);
+            turn++
+            break;
+        case 1:
+            console.log('Gene hit soft!');
+            heroHP(-5);
+            turn++
+            break;
+    }
+}
+
 
 function paulStanley() {
     fightText = document.createTextNode('Paul Stanley descended upon you like a star falling from the sky!')
@@ -462,22 +500,30 @@ function enemyFight(x, y) {
         if (enemy.x == x && enemy.y == y) {
             switch (enemy.Name) {
                 case 'Gene':
-                    geneSimmons();
+                    geneSimmonsHeroTurn();
+                    enemyHP(60);
+                    fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career is mad about you making fun of his band.  Get ready to battle!!!');
+                    appendFightButtons()
                     break;
                 case 'Paul':
                     paulStanley();
+                    enemyHP(40);
                     break;
                 case 'Ace':
                     aceFrehley();
+                    enemyHP(30);
                     break;
                 case 'Peter':
                     peterCriss()
+                    enemyHP(20);
                     break;
                 case 'Bruce':
                     bruceKulick()
+                    enemyHP(10);
                     break;
                 case 'Vinnie':
                     vinnieVincent();
+                    enemyHP(5);
                     break;
                 default:
                     console.log('Nada!')
