@@ -231,7 +231,7 @@ function changeChestClass(x, y) {
 }
 
 // Changes enemy from living to dead
- function changeEnemyClass(x, y) {
+function changeEnemyClass(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
@@ -265,27 +265,7 @@ function treasureChest() {
 
 }
 
-
-
-
-// Bruce Lee's moves
-
-function punch() {
-    console.log('Punch')
-}
-
-function lowKick() {
-    console.log('Low Kick')
-}
-
-function roundHouse() {
-    console.log('Roundhouse!')
-}
-
-function dragonStomp() {
-    console.log('Dragonstomp!')
-}
-
+// Global buttons and text for hero
 let fightElement = document.createElement('div')
 fightElement.className = 'scroll scroll-content';
 let fightText = null;
@@ -318,173 +298,183 @@ function appendFightButtons() {
 
 let turn = 0;
 // Fighting scenes
-function geneSimmonsHeroTurn() {
+function heroTurn(enemy) {
     // Hero's Turn
     // Fill out Listeners appropriately!!!
     // FIX HeroHP
     if (turn % 2 === 0) {
         console.log('Your turn!')
         fightButton1.addEventListener('click', function() {
-            let diceRoll = Math.floor(Math.random() * 2)
-            console.log(diceRoll)
-            switch (diceRoll) {
+            let heroDiceRoll = Math.floor(Math.random() * 2)
+            console.log(heroDiceRoll)
+            switch (heroDiceRoll) {
                 case 0:
                     enemyHP(-20);
                     turn++
-                    geneSimmonsEnemyTurn();
+                    enemyTurn(enemy);
                     break;
                 case 1:
                     enemyHP(-5);
                     turn++
-                    geneSimmonsEnemyTurn();
+                    enemyTurn(enemy);
                     break;
                 default:
                     console.log('No!')
             }
         })
-        // fightButton2.addEventListener('click', function() {
-        //     let diceRoll = Math.floor(Math.random() * 2)
-        //     switch (diceRoll) {
-        //         case 0:
-        //             enemyHP(-20);
-        //             geneSimmonsHeroTurn()
-        //             break;
-        //         case 1:
-        //             enemyHP(-5);
-        //             geneSimmonsHeroTurn();
-        //             break;
-        //         default:
-        //             console.log('No!')
-        //     }
-        // })
-        // fightButton3.addEventListener('click', function() {
-        //     let diceRoll = Math.floor(Math.random() * 2)
-        //     switch (diceRoll) {
-        //         case 0:
-        //             enemyHP(-20);
-        //             geneSimmonsHeroTurn();
-        //             break;
-        //         case 1:
-        //             enemyHP(-5);
-        //             geneSimmonsHeroTurn();
-        //             break;
-        //         default:
-        //             console.log('No!')
-        //     }
-        // })
-        // fightButton4.addEventListener('click', function() {
-        //     let diceRoll = Math.floor(Math.random() * 2)
-        //     switch (diceRoll) {
-        //         case 0:
-        //             enemyHP(-20);
-        //             geneSimmonsHeroTurn();
-        //             break;
-        //         case 1:
-        //             enemyHP(-5);
-        //             geneSimmonsHeroTurn();
-        //             break;
-        //         default:
-        //             console.log('No!')
-        //     }
-        // })
+        fightButton2.addEventListener('click', function() {
+            let diceRoll = Math.floor(Math.random() * 2)
+            switch (diceRoll) {
+                case 0:
+                    enemyHP(-20);
+                    enemyTurn(enemy);
+                    break;
+                case 1:
+                    enemyHP(-5);
+                    enemyTurn(enemy);
+                    break;
+                default:
+                    console.log('No!')
+            }
+        })
+        fightButton3.addEventListener('click', function() {
+            let diceRoll = Math.floor(Math.random() * 2)
+            switch (diceRoll) {
+                case 0:
+                    enemyHP(-20);
+                    enemyTurn(enemy);
+                    break;
+                case 1:
+                    enemyHP(-5);
+                    enemyTurn(enemy);
+                    break;
+                default:
+                    console.log('No!')
+            }
+        })
+        fightButton4.addEventListener('click', function() {
+            let diceRoll = Math.floor(Math.random() * 2)
+            switch (diceRoll) {
+                case 0:
+                    enemyHP(-20);
+                    enemyTurn(enemy);
+                    break;
+                case 1:
+                    enemyHP(-5);
+                    enemyTurn(enemy);
+                    break;
+                default:
+                    console.log('No!')
+            }
+        })
     } else if (turn !== 0) {
         turn++
-        geneSimmonsEnemyTurn()
+        enemyTurn(enemy);
     }
 }
 
 
 
-function geneSimmonsEnemyTurn() {
-    let diceRoll = Math.floor(Math.random() * 2)
-    switch (diceRoll) {
-        case 0:
-            console.log('You got hit!');
-            heroHP(-20);
-            turn++
+function enemyTurn(enemy) {
+    switch (enemy) {
+        case 'Gene':
+            let geneDiceRoll = Math.floor(Math.random() * 2)
+            switch (geneDiceRoll) {
+                case 0:
+                    console.log('You got hit!');
+                    heroHP(-20);
+                    turn++
+                    break;
+                case 1:
+                    console.log('Gene hit soft!');
+                    heroHP(-5);
+                    turn++
+                    break;
+
+            }
             break;
-        case 1:
-            console.log('Gene hit soft!');
-            heroHP(-5);
-            turn++
+        case 'Paul':
+            let paulDiceRoll = Math.floor(Math.random() * 2)
+            switch (paulDiceRoll) {
+                case 0:
+                    console.log('You got hit!');
+                    heroHP(-20);
+                    turn++
+                    break;
+                case 1:
+                    console.log('Gene hit soft!');
+                    heroHP(-5);
+                    turn++
+                    break;
+
+            }
             break;
+        case 'Ace':
+            let aceDiceRoll = Math.floor(Math.random() * 2)
+            switch (aceDiceRoll) {
+                case 0:
+                    console.log('You got hit!');
+                    heroHP(-20);
+                    turn++
+                    break;
+                case 1:
+                    console.log('Gene hit soft!');
+                    heroHP(-5);
+                    turn++
+                    break;
+
+            }
+            break;
+        case 'Peter':
+            let peterDiceRoll = Math.floor(Math.random() * 2)
+            switch (peterDiceRoll) {
+                case 0:
+                    console.log('You got hit!');
+                    heroHP(-20);
+                    turn++
+                    break;
+                case 1:
+                    console.log('Gene hit soft!');
+                    heroHP(-5);
+                    turn++
+                    break;
+
+            }
+            break;
+        case 'Bruce':
+            let bruceDiceRoll = Math.floor(Math.random() * 2)
+            switch (bruceDiceRoll) {
+                case 0:
+                    console.log('You got hit!');
+                    heroHP(-20);
+                    turn++
+                    break;
+                case 1:
+                    console.log('Gene hit soft!');
+                    heroHP(-5);
+                    turn++
+                    break;
+
+            }
+            break;
+        case 'Vinnie':
+            let vinnieDiceRoll = Math.floor(Math.random() * 2)
+            switch (vinnieDiceRoll) {
+                case 0:
+                    console.log('You got hit!');
+                    heroHP(-20);
+                    turn++
+                    break;
+                case 1:
+                    console.log('Gene hit soft!');
+                    heroHP(-5);
+                    turn++
+                    break;
+
+            }
+            break;
+
     }
-}
-
-
-function paulStanley() {
-    fightText = document.createTextNode('Paul Stanley descended upon you like a star falling from the sky!')
-    fightElement.appendChild(fightText);
-    document.getElementsByClassName('board')[0].appendChild(fightElement);
-    fightButton1.appendChild(fightButtonText1);
-    fightElement.appendChild(fightButton1);
-    fightButton2.appendChild(fightButtonText2);
-    fightElement.appendChild(fightButton2);
-    fightButton3.appendChild(fightButtonText3);
-    fightElement.appendChild(fightButton3);
-    fightButton4.appendChild(fightButtonText4);
-    fightElement.appendChild(fightButton4);
-
-}
-
-function aceFrehley() {
-    fightText = document.createTextNode('That\'s not Sting...That\'s Ace Frehley! And he\'s ready to rumble!')
-    fightElement.appendChild(fightText);
-    document.getElementsByClassName('board')[0].appendChild(fightElement);
-    fightButton1.appendChild(fightButtonText1);
-    fightElement.appendChild(fightButton1);
-    fightButton2.appendChild(fightButtonText2);
-    fightElement.appendChild(fightButton2);
-    fightButton3.appendChild(fightButtonText3);
-    fightElement.appendChild(fightButton3);
-    fightButton4.appendChild(fightButtonText4);
-    fightElement.appendChild(fightButton4);
-
-}
-
-function peterCriss() {
-    fightText = document.createTextNode('This weird cat lookin\' dude just hit you with his drumstick!  Peter Criss wants to fight!');
-    fightElement.appendChild(fightText);
-    document.getElementsByClassName('board')[0].appendChild(fightElement);
-    fightButton1.appendChild(fightButtonText1);
-    fightElement.appendChild(fightButton1);
-    fightButton2.appendChild(fightButtonText2);
-    fightElement.appendChild(fightButton2);
-    fightButton3.appendChild(fightButtonText3);
-    fightElement.appendChild(fightButton3);
-    fightButton4.appendChild(fightButtonText4);
-    fightElement.appendChild(fightButton4);
-
-}
-
-function bruceKulick() {
-    fightText = document.createTextNode('Oh I guess this guy was mostly in the band after they quit wearing makeup...Bruce Kulick squares up... ');
-    fightElement.appendChild(fightText);
-    document.getElementsByClassName('board')[0].appendChild(fightElement);
-    fightButton1.appendChild(fightButtonText1);
-    fightElement.appendChild(fightButton1);
-    fightButton2.appendChild(fightButtonText2);
-    fightElement.appendChild(fightButton2);
-    fightButton3.appendChild(fightButtonText3);
-    fightElement.appendChild(fightButton3);
-    fightButton4.appendChild(fightButtonText4);
-    fightElement.appendChild(fightButton4);
-
-}
-
-function vinnieVincent() {
-    fightText = document.createTextNode('Vinnie Vincent (yeah, the guy in makeup taht no one actually knew was in the band) wants to throw down! ');
-    fightElement.appendChild(fightText);
-    document.getElementsByClassName('board')[0].appendChild(fightElement);
-    fightButton1.appendChild(fightButtonText1);
-    fightElement.appendChild(fightButton1);
-    fightButton2.appendChild(fightButtonText2);
-    fightElement.appendChild(fightButton2);
-    fightButton3.appendChild(fightButtonText3);
-    fightElement.appendChild(fightButton3);
-    fightButton4.appendChild(fightButtonText4);
-    fightElement.appendChild(fightButton4);
-
 }
 
 // Sends to appropriate fight scene
@@ -494,30 +484,40 @@ function enemyFight(x, y) {
         if (enemy.x == x && enemy.y == y) {
             switch (enemy.Name) {
                 case 'Gene':
-                    geneSimmonsHeroTurn();
+                    heroTurn('Gene');
                     enemyHP(60);
                     fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
                     appendFightButtons()
                     break;
                 case 'Paul':
-                    paulStanley();
+                    heroTurn('Paul');
                     enemyHP(40);
+                    fightText = document.createTextNode('Paul Stanley descended upon you like a star falling from the sky!');
+                    appendFightButtons()
                     break;
                 case 'Ace':
-                    aceFrehley();
+                    heroTurn('Ace');
                     enemyHP(30);
+                    fightText = document.createTextNode('That\'s not Sting...That\'s Ace Frehley! And he\'s ready to rumble!');
+                    appendFightButtons()
                     break;
                 case 'Peter':
-                    peterCriss()
+                    heroTurn('Peter');
                     enemyHP(20);
+                    fightText = document.createTextNode('This weird cat lookin\' dude just threw a drumstick at you!  Peter Criss wants to fight!');
+                    appendFightButtons()
                     break;
                 case 'Bruce':
-                    bruceKulick()
+                    heroTurn('Bruce');
                     enemyHP(10);
+                    fightText = document.createTextNode('Oh I guess this guy was mostly in the band after they quit wearing makeup...Bruce Kulick squares up... ');
+                    appendFightButtons()
                     break;
                 case 'Vinnie':
-                    vinnieVincent();
+                    heroTurn('Vinnie');
                     enemyHP(5);
+                    fightText = document.createTextNode('Vinnie Vincent (yeah, the guy in makeup that no one actually knew was in the band) wants to throw down!');
+                    appendFightButtons()
                     break;
                 default:
                     console.log('Nada!')
