@@ -1,41 +1,34 @@
 // Movement/collision detection borrowed from Eric Lewis' article:
 // https://wakeful-baritone.glitch.me/
 
-
 const hero = { x: 0, y: 0 };
-// For controlled random, set ranges to each object to avoid collisions
 
-// Brick placement
-const bricks = [
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 },
-    { x: Math.floor(Math.random() * 18) + 2, y: Math.floor(Math.random() * 10) + 1 }
+
+// Brick placement & for loop to place
+let bricks = [
+    { x: 19, y: 11 },
 
 ];
+for (let i = 0; i < 39; i++) {
+    bricks.push({
+        x: Math.floor(Math.random() * 18) + 2,
+        y: Math.floor(Math.random() * 10) + 1,
+    })
+};
 
-// Treasure Chest placement
+
+// Treasure Chest placement & for loop to place
 let chests = [
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) },
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }
+    { x: 4, y: 8 },
 
 ];
+for (let i = 0; i < 6; i++) {
+    chests.push({
+        x: Math.floor(Math.random() * 18) + 2,
+        y: Math.floor(Math.random() * 10) + 1,
+    })
+};
+
 
 // Enemy placement
 const enemies = [
@@ -48,10 +41,10 @@ const enemies = [
 
 ];
 
+
 // Life Count box
 const heroLifeBox = document.getElementsByClassName('hero-hp js-hp');
 const enemyLifeBox = document.getElementsByClassName('enemy-hp js-hp');
-
 
 
 // Hero's life
@@ -62,6 +55,7 @@ function heroHP(x) {
     heroLifeBox.value = value;
     heroLifeBox[0].innerHTML = value;
 };
+heroHP(30);
 
 function enemyHP(x) {
     let value = parseInt(enemyLifeBox.value, 10);
@@ -74,7 +68,7 @@ function enemyHP(x) {
 
 
 // Brick rendering
-const renderBricks = function() {
+function renderBricks() {
     for (let i = 0; i < bricks.length; i++) {
         const brick = bricks[i];
         const brickElement = document.createElement('div');
@@ -89,7 +83,7 @@ renderBricks();
 
 
 // Treasure chest rendering
-const renderChests = function() {
+function renderChests() {
     for (let i = 0; i < chests.length; i++) {
         const chest = chests[i];
         closedChestElement = document.createElement('div');
@@ -103,7 +97,7 @@ const renderChests = function() {
 };
 renderChests();
 
-const renderEnemies = function() {
+function renderEnemies() {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         livingEnemyElement = document.createElement('div');
@@ -220,7 +214,7 @@ const isEnemyInCoordinate = function(x, y) {
 
 
 // Changes chest from close to open
-const changeChestClass = function(x, y) {
+function changeChestClass(x, y) {
     for (let i = 0; i < chests.length; i++) {
         const chest = chests[i];
         if (chest.x == x && chest.y == y) {
@@ -237,7 +231,7 @@ const changeChestClass = function(x, y) {
 }
 
 // Changes enemy from living to dead
-const changeEnemyClass = function(x, y) {
+ function changeEnemyClass(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
@@ -502,7 +496,7 @@ function enemyFight(x, y) {
                 case 'Gene':
                     geneSimmonsHeroTurn();
                     enemyHP(60);
-                    fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career is mad about you making fun of his band.  Get ready to battle!!!');
+                    fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
                     appendFightButtons()
                     break;
                 case 'Paul':
