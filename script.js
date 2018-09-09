@@ -2,7 +2,13 @@
 // https://wakeful-baritone.glitch.me/
 
 // Audio variables
-const popupAudio = document.getElementById('popup');
+const enemyPopupAudio = document.getElementById('popup');
+const gameplayAudio = document.getElementById('gameplay');
+
+function gameplayMusic() {
+    gameplayAudio.currentTime = 0;
+    gameplayAudio.play();
+}
 
 const hero = { x: 0, y: 0 };
 
@@ -388,28 +394,8 @@ function appendFightButtons() {
     fightElement.appendChild(fightButton4);
     addEventListeners()
     setTimeout(function() { heroTurn('makeMove') }, 6000)
-    // popupAudio.currentTime = 0;
-    // popupAudio.play();
-
-}
-
-function appendFightButtons() {
-    fightElement.appendChild(fightText);
-    document.getElementsByClassName('board')[0].appendChild(fightElement);
-    fightButton1.appendChild(fightButtonText1);
-    fightElement.appendChild(fightButton1);
-    fightButton2.appendChild(fightButtonText2);
-    fightElement.appendChild(fightButton2);
-    fightButton3.appendChild(fightButtonText3);
-    fightElement.appendChild(fightButton3);
-    fightButton4.appendChild(fightButtonText4);
-    fightElement.appendChild(fightButton4);
-    fightButton5.appendChild(fightButtonText5);
-    fightElement.appendChild(fightButton5);
-    addEventListeners()
-    setTimeout(function() { heroTurn('makeMove') }, 6000)
-    // popupAudio.currentTime = 0;
-    // popupAudio.play();
+    enemyPopupAudio.currentTime = 0;
+    enemyPopupAudio.play();
 
 }
 
@@ -420,9 +406,6 @@ function addEventListeners() {
     fightButton4.addEventListener('click', function() { heroTurn('Dragonstomp') })
     fightButton5.addEventListener('click', function() { location.reload() })
 }
-
-
-
 
 // Fight scenes
 function heroTurn(move) {
@@ -834,6 +817,9 @@ document.body.addEventListener('keydown', function(e) {
             break;
         case 40:
             moveDown();
+            break;
+        case 32:
+            gameplayMusic();
             break;
     }
 });

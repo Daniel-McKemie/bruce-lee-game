@@ -1,3 +1,7 @@
+/*Animation references borrowed from:*/
+/* https://css-tricks.com/almanac/properties/a/animation/*/
+
+
 * {
     box-sizing: border-box;
 }
@@ -148,15 +152,15 @@ body.scroll {
 
 @keyframes swoop {
     0% {
-        transform: scale(.3);
+        transform: translate(-50px, -50px) skewX(40deg);
         background-color: rgba(0, 0, 0, 0.0);
-        border-radius: 100%;
     }
-    50% {
+    80% {
+        transform: translate(150px, 30px) skewX(-40deg);
         background-color: rgba(0, 0, 0, 0.4);
     }
     100% {
-        transform: scale(1.0);
+        transform: translate(0, 0, 0) skewX(0deg);
         background-color: rgba(0, 0, 0, 0.7);
     }
 }
