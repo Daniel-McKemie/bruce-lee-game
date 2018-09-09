@@ -1,7 +1,8 @@
 // Movement/collision detection borrowed from Eric Lewis' article:
 // https://wakeful-baritone.glitch.me/
 
-
+// Audio variables
+const popupAudio = document.getElementById('popup');
 
 const hero = { x: 0, y: 0 };
 
@@ -51,7 +52,7 @@ let heroHP = function(x) {
     value = isNaN(value) ? 0 : value;
     value += x
     heroLifeBox.value = value;
-    heroLifeBox[0].innerHTML = value;
+    heroLifeBox[0].innerHTML = `Bruce's HP: ${value}`;
     bruceLeeHP = value;
 };
 heroHP(30);
@@ -84,30 +85,30 @@ renderBricks();
 
 // Randomize backgrounds of blocks
 const instrumentImages = [
- "images/instruments/acoustic-guitar-1.png",
- "images/instruments/acoustic-guitar-2.png",
- "images/instruments/drum-kit-1.png",
- "images/instruments/drum-kit-2.png",
- "images/instruments/drum-kit-3.png",
- "images/instruments/electric-guitar-1.png",
- "images/instruments/electric-guitar-2.png",
- "images/instruments/electric-guitar-3.png",
- "images/instruments/electric-guitar-4.png",
- "images/instruments/mic-1.png",
- "images/instruments/mic-2.png",
- "images/instruments/piano-1.png",
- "images/instruments/piano-2.png",
- "images/instruments/upright-bass.png"
+'images/instruments/acoustic-guitar-1.png',
+'images/instruments/acoustic-guitar-2.png',
+'images/instruments/drum-kit-1.png',
+'images/instruments/drum-kit-2.png',
+'images/instruments/drum-kit-3.png',
+'images/instruments/electric-guitar-1.png',
+'images/instruments/electric-guitar-2.png',
+'images/instruments/electric-guitar-3.png',
+'images/instruments/electric-guitar-4.png',
+'images/instruments/mic-1.png',
+'images/instruments/mic-2.png',
+'images/instruments/piano-1.png',
+'images/instruments/piano-2.png',
+'images/instruments/upright-bass.png'
 ];
 
-const instrumentDivs = document.getElementsByClassName("brick");
+const instrumentDivs = document.getElementsByClassName('brick');
 const instrumentDivArray = Array.prototype.slice.call(instrumentDivs);
 
 instrumentDivArray.forEach(function(div) {
  
   let randomNum = Math.floor(Math.random() * instrumentImages.length);
 
-  div.style.backgroundImage = "url(" + instrumentImages[randomNum] + ")";
+  div.style.backgroundImage ='url(' + instrumentImages[randomNum] + ')';
 });
 
 
@@ -302,6 +303,9 @@ function appendFightButtons() {
     fightElement.appendChild(fightButton3);
     fightButton4.appendChild(fightButtonText4);
     fightElement.appendChild(fightButton4);
+    popupAudio.currentTime = 0;
+    popupAudio.play();
+
 }
 
 let turn = 0;
@@ -498,8 +502,8 @@ function heroTurn() {
 
 
 function enemyTurn(enemy) {
-    let geneDiceRoll = Math.floor(Math.random() * 2)
-    switch (geneDiceRoll) {
+    let diceRoll = Math.floor(Math.random() * 2)
+    switch (diceRoll) {
         case 0:
             console.log('You got hit!')
             heroHP(-20);
@@ -542,6 +546,11 @@ function checkEnemyCount() {
     }
 }
 
+
+squareUpText = [
+''
+
+]
 
 // Initiates and sets up fight scene
 function enemyFight(x, y) {
