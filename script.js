@@ -1,9 +1,27 @@
 // Movement/collision detection borrowed from Eric Lewis' article:
 // https://wakeful-baritone.glitch.me/
 
+document.body.addEventListener('keydown', function(e) {
+    const keyCode = e.keyCode;
+    if ([37, 38, 39, 40, 32].includes(keyCode)) {
+        e.preventDefault();
+    }
+    switch (keyCode) {
+        case 32:
+            splash = document.getElementsByClassName('startScreen')
+            splash[0].remove()
+            boards = document.getElementsByClassName('container')
+            break;
+    }
+})
+
+
+
 // Audio variables
 const enemyPopupAudio = document.getElementById('popup');
 const gameplayAudio = document.getElementById('gameplay');
+const treasureAudio = document.getElementById('treasure');
+const gameWinAudio = document.getElementById('gameWin');
 
 function gameplayMusic() {
     gameplayAudio.currentTime = 0;
@@ -61,7 +79,7 @@ let heroHP = function(x) {
     heroLifeBox[0].innerHTML = `Bruce's HP: ${value}`;
     bruceLeeHP = value;
 };
-heroHP(3);
+heroHP(50);
 
 
 function enemyHP(x) {
@@ -277,81 +295,99 @@ function treasureChest(x, y) {
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'You found a salad.  Yeah, it\'s kind of weird that it\'s in a treasure chest, but it\'s still fresh!  Gain 10 HP!'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(10);
                     break;
                 case 1:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'A surprise Chuck Norris attack!  Lose 10 HP.'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(-10)
                     break;
                 case 2:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'O\'Hara actually got a hit on you!  Lose 5 HP.'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(-5)
                     break;
                 case 3:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'This treasure chest leads to a hidden room with a nice bed and many amenities.  You take a rest and recharge 20 HP!'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(20)
                     break;
                 case 4:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'Beef in oyster sauce!  Bruce\'s favorite dish!  This will surely help vanquish those wannabe glam rockers! Gain 25 HP!'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(25)
                     break;
                 case 5:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'You got beat up by a gang of roadies!  They licked ya pretty good.  Lose 20 HP'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(-20)
                     break;
                 case 6:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'Some half melted chocolate bars.  Gain 5 HP.'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(5)
                     break;
                 case 7:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'A fireball flew out of the chest!  Lose 5 HP.'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(-5)
                     break;
                 case 8:
                     treasureElement.appendChild(treasureText)
                     treasureText.textContent = 'Clean water to drink with a bowl of rice gives you a quick boost.  Gain 10 HP!'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 6000)
+                    }, 4000)
                     heroHP(10)
                     break;
             }
@@ -712,13 +748,16 @@ function enemyTurn() {
 
 function heroWins() {
     fightText.textContent = 'Congratulations!  You have defeated the Kiss Army!  Try again to take on another member of that horrible band!'
-    fightButton5.textContent = 'Let\'s roll!'
+    gameplayAudio.pause();
+    gameWinAudio.play();
+    gameWinAudio.volume = 0.2
+    setTimeout(function() {location.reload() }, 11000);
 
 }
 
 function heroLoses() {
     fightText.textContent = 'You died!  Let\'s try again!'
-    setTimeout(function() { location.reload() }, 2000)
+    setTimeout(function() { location.reload() }, 2000);
 }
 
 
@@ -727,15 +766,13 @@ function enemyFight(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
-            enemyHP(100);
+            enemyHP(60);
             fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
             appendFightButtons()
             setTimeout(heroTurn, 6000)
         }
     }
 }
-
-
 
 // Allows hero to move
 const moveHeroTo = function(x, y) {
@@ -802,7 +839,7 @@ function moveDown() {
 // Key commands for movements
 document.body.addEventListener('keydown', function(e) {
     const keyCode = e.keyCode;
-    if ([37, 38, 39, 40].includes(keyCode)) {
+    if ([37, 38, 39, 40, 32].includes(keyCode)) {
         e.preventDefault();
     }
     switch (keyCode) {
@@ -820,6 +857,7 @@ document.body.addEventListener('keydown', function(e) {
             break;
         case 32:
             gameplayMusic();
+            gameplayAudio.volume = 0.2;
             break;
     }
 });
