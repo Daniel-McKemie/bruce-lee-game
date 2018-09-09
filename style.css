@@ -57,11 +57,27 @@ body {
 }
 
 .enemy-living {
-    background-image: url('images/kiss/gene.png');
+    
 }
 
 .enemy-dead {
 	background-image: url('images/santa.jpg')
+}
+
+#gene {
+    background-image: url('images/kiss/gene.png');
+}
+
+#ace {
+    background-image: url('images/kiss/ace.png');
+}
+
+#paul {
+    background-image: url('images/kiss/paul.png');
+}
+
+#peter {
+    background-image: url('images/kiss/peter.png');
 }
 
 .scroll {
@@ -83,6 +99,7 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    color: #000000;
 }
 
 .scroll-button:hover {

@@ -62,7 +62,7 @@ function enemyHP(x) {
     value = isNaN(value) ? 0 : value;
     value += x
     enemyLifeBox.value = value;
-    enemyLifeBox[0].innerHTML = value;
+    // enemyLifeBox[0].innerHTML = value;
     kissArmyHP = value;
 
 }
@@ -98,8 +98,6 @@ const instrumentImages = [
  "images/instruments/piano-1.png",
  "images/instruments/piano-2.png",
  "images/instruments/upright-bass.png"
-
- 
 ];
 
 const instrumentDivs = document.getElementsByClassName("brick");
@@ -107,7 +105,7 @@ const instrumentDivArray = Array.prototype.slice.call(instrumentDivs);
 
 instrumentDivArray.forEach(function(div) {
  
-  var randomNum = Math.floor(Math.random() * instrumentImages.length);
+  let randomNum = Math.floor(Math.random() * instrumentImages.length);
 
   div.style.backgroundImage = "url(" + instrumentImages[randomNum] + ")";
 });
@@ -128,11 +126,14 @@ function renderChests() {
 };
 renderChests();
 
+const enemyNames = ['gene', 'ace', 'paul', 'peter']
+
 function renderEnemies() {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         livingEnemyElement = document.createElement('div');
-        livingEnemyElement.className = ('enemy enemy-living');
+        livingEnemyElement.className = ('enemy enemy-living')
+        livingEnemyElement.id = enemyNames[Math.floor(Math.random() * enemyNames.length)];
         livingEnemyElement.style.left = (enemy.x * 20).toString() + 'px';
         livingEnemyElement.style.top = (enemy.y * 20).toString() + 'px';
         document.getElementsByClassName('board')[0].appendChild(livingEnemyElement);
@@ -321,7 +322,7 @@ function heroTurn() {
                     enemyHP(-10);
                     turn++;
                     if (kissArmyHP > 0) {
-                        enemyTurn();
+                        setTimeout(enemyTurn, 2000);
                     } else {
                         changeEnemyClass(hero.x, hero.y);
                         heroWins()
@@ -334,7 +335,7 @@ function heroTurn() {
                     enemyHP(-15);
                     turn++;
                     if (kissArmyHP > 0) {
-                        enemyTurn();
+                        setTimeout(enemyTurn, 2000);
                     } else {
                         changeEnemyClass(hero.x, hero.y);
                         heroWins();
@@ -345,7 +346,7 @@ function heroTurn() {
                     console.log('You missed!');
                     turn++;
                     if (kissArmyHP > 0) {
-                        enemyTurn();
+                       setTimeout(enemyTurn, 2000);
                     } else {
                         changeEnemyClass(hero.x, hero.y);
                         heroWins()
@@ -488,7 +489,7 @@ function heroTurn() {
 
         })
     } else {
-        enemyTurn()
+        setTimeout(enemyTurn, 2000);
     }
 }
 
