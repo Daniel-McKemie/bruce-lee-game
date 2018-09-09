@@ -55,7 +55,7 @@ let heroHP = function(x) {
     heroLifeBox[0].innerHTML = `Bruce's HP: ${value}`;
     bruceLeeHP = value;
 };
-heroHP(30);
+heroHP(3);
 
 
 function enemyHP(x) {
@@ -85,30 +85,30 @@ renderBricks();
 
 // Randomize backgrounds of blocks
 const instrumentImages = [
-'images/instruments/acoustic-guitar-1.png',
-'images/instruments/acoustic-guitar-2.png',
-'images/instruments/drum-kit-1.png',
-'images/instruments/drum-kit-2.png',
-'images/instruments/drum-kit-3.png',
-'images/instruments/electric-guitar-1.png',
-'images/instruments/electric-guitar-2.png',
-'images/instruments/electric-guitar-3.png',
-'images/instruments/electric-guitar-4.png',
-'images/instruments/mic-1.png',
-'images/instruments/mic-2.png',
-'images/instruments/piano-1.png',
-'images/instruments/piano-2.png',
-'images/instruments/upright-bass.png'
+    'images/instruments/acoustic-guitar-1.png',
+    'images/instruments/acoustic-guitar-2.png',
+    'images/instruments/drum-kit-1.png',
+    'images/instruments/drum-kit-2.png',
+    'images/instruments/drum-kit-3.png',
+    'images/instruments/electric-guitar-1.png',
+    'images/instruments/electric-guitar-2.png',
+    'images/instruments/electric-guitar-3.png',
+    'images/instruments/electric-guitar-4.png',
+    'images/instruments/mic-1.png',
+    'images/instruments/mic-2.png',
+    'images/instruments/piano-1.png',
+    'images/instruments/piano-2.png',
+    'images/instruments/upright-bass.png'
 ];
 
 const instrumentDivs = document.getElementsByClassName('brick');
 const instrumentDivArray = Array.prototype.slice.call(instrumentDivs);
 
 instrumentDivArray.forEach(function(div) {
- 
-  let randomNum = Math.floor(Math.random() * instrumentImages.length);
 
-  div.style.backgroundImage ='url(' + instrumentImages[randomNum] + ')';
+    let randomNum = Math.floor(Math.random() * instrumentImages.length);
+
+    div.style.backgroundImage = 'url(' + instrumentImages[randomNum] + ')';
 });
 
 
@@ -278,7 +278,7 @@ function treasureChest() {
 // Global buttons and text for hero
 let fightElement = document.createElement('div')
 fightElement.className = 'scroll scroll-content';
-let fightText = null;
+let fightText = document.createTextNode('');
 const fightButton1 = document.createElement('div');
 fightButton1.className = 'scroll-button';
 const fightButton2 = document.createElement('div');
@@ -287,10 +287,13 @@ const fightButton3 = document.createElement('div');
 fightButton3.className = 'scroll-button';
 const fightButton4 = document.createElement('div');
 fightButton4.className = 'scroll-button';
-let fightButtonText1 = document.createTextNode('Punch');
-let fightButtonText2 = document.createTextNode('Low Kick');
-let fightButtonText3 = document.createTextNode('Roundhouse');
-let fightButtonText4 = document.createTextNode('Dragonstomp');
+const fightButton5 = document.createElement('div');
+fightButton5.className = 'scroll-button';
+let fightButtonText1 = document.createTextNode('');
+let fightButtonText2 = document.createTextNode('');
+let fightButtonText3 = document.createTextNode('');
+let fightButtonText4 = document.createTextNode('');
+let fightButtonText5 = document.createTextNode('');
 
 function appendFightButtons() {
     fightElement.appendChild(fightText);
@@ -303,222 +306,282 @@ function appendFightButtons() {
     fightElement.appendChild(fightButton3);
     fightButton4.appendChild(fightButtonText4);
     fightElement.appendChild(fightButton4);
-    popupAudio.currentTime = 0;
-    popupAudio.play();
+    addEventListeners()
+    setTimeout(function() { heroTurn('makeMove') }, 6000)
+    // popupAudio.currentTime = 0;
+    // popupAudio.play();
 
 }
 
-let turn = 0;
+function appendFightButtons() {
+    fightElement.appendChild(fightText);
+    document.getElementsByClassName('board')[0].appendChild(fightElement);
+    fightButton1.appendChild(fightButtonText1);
+    fightElement.appendChild(fightButton1);
+    fightButton2.appendChild(fightButtonText2);
+    fightElement.appendChild(fightButton2);
+    fightButton3.appendChild(fightButtonText3);
+    fightElement.appendChild(fightButton3);
+    fightButton4.appendChild(fightButtonText4);
+    fightElement.appendChild(fightButton4);
+    fightButton5.appendChild(fightButtonText5);
+    fightElement.appendChild(fightButton5);
+    addEventListeners()
+    setTimeout(function() { heroTurn('makeMove') }, 6000)
+    // popupAudio.currentTime = 0;
+    // popupAudio.play();
+
+}
+
+function addEventListeners() {
+    fightButton1.addEventListener('click', function() { heroTurn('Punch') })
+    fightButton2.addEventListener('click', function(){ heroTurn('Low Kick') })
+    fightButton3.addEventListener('click', function(){ heroTurn('Roundhouse') })
+    fightButton4.addEventListener('click', function(){ heroTurn('Dragonstomp') })
+    fightButton5.addEventListener('click', function(){ location.reload() })
+}
+
+
+
 
 // Fight scenes
-function heroTurn() {
+function heroTurn(move) {
+    if (move == 'makeMove') {
+        fightText.textContent = 'Your move!'
+        fightButtonText1.textContent = 'Punch'
+        fightButtonText2.textContent = 'Low Kick'
+        fightButtonText3.textContent = 'Roundhouse'
+        fightButtonText4.textContent = 'Dragonstomp'
+    }
     // Hero's Turn
     // Fill out Listeners appropriately!!!
-    if (turn % 2 == 0) {
-        fightButton1.addEventListener('click', function() {
-            let heroDiceRoll = Math.floor(Math.random() * 6)
-            switch (heroDiceRoll) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    console.log('Hit!');
-                    enemyHP(-10);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        setTimeout(enemyTurn, 2000);
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
 
-                    }
-                    heroDiceRoll = 0;
-                    break;
-                case 4:
-                    console.log('Nice! Extra hard punch!')
-                    enemyHP(-15);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        setTimeout(enemyTurn, 2000);
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins();
-                    }
-                    heroDiceRoll = 0
-                    break;
-                case 5:
-                    console.log('You missed!');
-                    turn++;
-                    if (kissArmyHP > 0) {
-                       setTimeout(enemyTurn, 2000);
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
-                    }
-                    heroDiceRoll = 0
-                    break;
-            }
-        })
-        fightButton2.addEventListener('click', function() {
-            let hero2DiceRoll = Math.floor(Math.random() * 6)
-            switch (hero2DiceRoll) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    console.log('Hit!');
-                    enemyHP(-10);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
+    if (move == 'Punch') {
+        let heroDiceRoll = Math.floor(Math.random() * 6)
+        switch (heroDiceRoll) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                console.log('hit!')
+                fightText.textContent = 'punch!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-10);
 
-                    }
-                    hero2DiceRoll = 0
-                    break;
-                case 4:
-                    console.log('Nice! Extra hard punch!')
-                    enemyHP(-15);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins();
-                    }
-                    hero2DiceRoll = 0
-                    break;
-                case 5:
-                    console.log('You missed!');
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
-                    }
-                    hero2DiceRoll = 0
-                    break;
-            }
-        })
-        fightButton3.addEventListener('click', function() {
-            let hero3DiceRoll = Math.floor(Math.random() * 6)
-            switch (hero3DiceRoll) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    console.log('Hit!');
-                    enemyHP(-10);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
 
-                    }
-                    hero3DiceRoll = 0
-                    break;
-                case 4:
-                    console.log('Nice! Extra hard punch!')
-                    enemyHP(-15);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins();
-                    }
-                    hero3DiceRoll = 0
-                    break;
-                case 5:
-                    console.log('You missed!');
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
-                    }
-                    hero3DiceRoll = 0
-                    break;
-            }
-        })
-        fightButton4.addEventListener('click', function() {
-            let hero4DiceRoll = Math.floor(Math.random() * 6)
-            switch (hero4DiceRoll) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    console.log('Hit!');
-                    enemyHP(-10);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
 
-                    }
-                    hero4DiceRoll = 0
-                    break;
-                case 4:
-                    console.log('Nice! Extra hard punch!')
-                    enemyHP(-15);
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins();
-                    }
-                    hero4DiceRoll = 0
-                    break;
-                case 5:
-                    console.log('You missed!');
-                    turn++;
-                    if (kissArmyHP > 0) {
-                        enemyTurn();
-                    } else {
-                        changeEnemyClass(hero.x, hero.y);
-                        heroWins()
-                    }
-                    hero4DiceRoll = 0
-                    break;
-            }
+                }
+                heroDiceRoll = 0;
+                break;
+            case 4:
+                fightText.textContent = 'punch!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-15);
+                console.log('hit!')
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins();
+                }
+                heroDiceRoll = 0
+                break;
+            case 5:
+                fightText.textContent = 'punch!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-15)
+                console.log('hit!')
 
-        })
-    } else {
-        setTimeout(enemyTurn, 2000);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
+                heroDiceRoll = 0
+                break;
+        }
     }
 }
 
+//     fightButton2.addEventListener('click', function() {
+//         let hero2DiceRoll = Math.floor(Math.random() * 6)
+//         switch (hero2DiceRoll) {
+//             case 0:
+//             case 1:
+//             case 2:
+//             case 3:
+//                 console.log('Hit!');
+//                 enemyHP(-10);
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins()
+
+//                 }
+//                 hero2DiceRoll = 0
+//                 break;
+//             case 4:
+//                 console.log('Nice! Extra hard punch!')
+//                 enemyHP(-15);
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins();
+//                 }
+//                 hero2DiceRoll = 0
+//                 break;
+//             case 5:
+//                 console.log('You missed!');
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins()
+//                 }
+//                 hero2DiceRoll = 0
+//                 break;
+//         }
+//     })
+//     fightButton3.addEventListener('click', function() {
+//         let hero3DiceRoll = Math.floor(Math.random() * 6)
+//         switch (hero3DiceRoll) {
+//             case 0:
+//             case 1:
+//             case 2:
+//             case 3:
+//                 console.log('Hit!');
+//                 enemyHP(-10);
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins()
+
+//                 }
+//                 hero3DiceRoll = 0
+//                 break;
+//             case 4:
+//                 console.log('Nice! Extra hard punch!')
+//                 enemyHP(-15);
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins();
+//                 }
+//                 hero3DiceRoll = 0
+//                 break;
+//             case 5:
+//                 console.log('You missed!');
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins()
+//                 }
+//                 hero3DiceRoll = 0
+//                 break;
+//         }
+//     })
+//     fightButton4.addEventListener('click', function() {
+//         let hero4DiceRoll = Math.floor(Math.random() * 6)
+//         switch (hero4DiceRoll) {
+//             case 0:
+//             case 1:
+//             case 2:
+//             case 3:
+//                 console.log('Hit!');
+//                 enemyHP(-10);
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins()
+
+//                 }
+//                 hero4DiceRoll = 0
+//                 break;
+//             case 4:
+//                 console.log('Nice! Extra hard punch!')
+//                 enemyHP(-15);
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins();
+//                 }
+//                 hero4DiceRoll = 0
+//                 break;
+//             case 5:
+//                 console.log('You missed!');
+//                 
+//                 if (kissArmyHP > 0) {
+//                     enemyTurn();
+//                 } else {
+//                     changeEnemyClass(hero.x, hero.y);
+//                     heroWins()
+//                 }
+//                 hero4DiceRoll = 0
+//                 break;
+//         }
+
+//     })
+// } else {
+//     setTimeout(enemyTurn, 2000);
+// }
 
 
 
 
-function enemyTurn(enemy) {
+
+
+function enemyTurn() {
     let diceRoll = Math.floor(Math.random() * 2)
     switch (diceRoll) {
         case 0:
-            console.log('You got hit!')
+            fightText.textContent = 'You got smacked!'
             heroHP(-20);
             if (bruceLeeHP <= 0) {
                 heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
             }
-            turn++;
+
             break;
         case 1:
-            console.log('Got hit soft!')
+            fightText.textContent = 'You got kicked!'
             heroHP(-5);
             if (bruceLeeHP <= 0) {
                 heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
             }
-            turn++;
+
             break;
 
     }
@@ -528,39 +591,26 @@ function enemyTurn(enemy) {
 // Win or lose battle
 
 function heroWins() {
-    console.log('You win!');
-    turn = 0;
-    checkEnemyCount()
+    fightText.textContent = 'Congratulations!  You have defeated the Kiss Army!  Try again to vanquish another member of that horrible band!'
+    fightButton5.textContent = 'Let\'s roll!'
 
 }
 
 function heroLoses() {
-    console.log('You died.')
-    fightElement.style.display = 'none'
-    location.reload()
+    fightText.textContent = 'You died!  Let\'s try again!'
+    setTimeout(function(){location.reload()}, 2000)
 }
 
-function checkEnemyCount() {
-    if (enemies.length == 0) {
-        console.log('Finished!')
-    }
-}
-
-
-squareUpText = [
-''
-
-]
 
 // Initiates and sets up fight scene
 function enemyFight(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
-            heroTurn()
-            enemyHP(60);
+            enemyHP(100);
             fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
             appendFightButtons()
+            setTimeout(heroTurn, 6000)
         }
     }
 }
