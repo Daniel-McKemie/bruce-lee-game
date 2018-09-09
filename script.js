@@ -1,6 +1,8 @@
 // Movement/collision detection borrowed from Eric Lewis' article:
 // https://wakeful-baritone.glitch.me/
 
+
+
 const hero = { x: 0, y: 0 };
 
 
@@ -79,6 +81,36 @@ function renderBricks() {
     }
 };
 renderBricks();
+
+// Randomize backgrounds of blocks
+const instrumentImages = [
+ "images/instruments/acoustic-guitar-1.png",
+ "images/instruments/acoustic-guitar-2.png",
+ "images/instruments/drum-kit-1.png",
+ "images/instruments/drum-kit-2.png",
+ "images/instruments/drum-kit-3.png",
+ "images/instruments/electric-guitar-1.png",
+ "images/instruments/electric-guitar-2.png",
+ "images/instruments/electric-guitar-3.png",
+ "images/instruments/electric-guitar-4.png",
+ "images/instruments/mic-1.png",
+ "images/instruments/mic-2.png",
+ "images/instruments/piano-1.png",
+ "images/instruments/piano-2.png",
+ "images/instruments/upright-bass.png"
+
+ 
+];
+
+const instrumentDivs = document.getElementsByClassName("brick");
+const instrumentDivArray = Array.prototype.slice.call(instrumentDivs);
+
+instrumentDivArray.forEach(function(div) {
+ 
+  var randomNum = Math.floor(Math.random() * instrumentImages.length);
+
+  div.style.backgroundImage = "url(" + instrumentImages[randomNum] + ")";
+});
 
 
 // Treasure chest rendering
