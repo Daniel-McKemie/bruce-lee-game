@@ -127,4 +127,45 @@ body.scroll {
     overflow: hidden;
 }
 
+.treasure-scroll {
+    display: table;
+    position: fixed;
+    z-index: 2000;
+    left: 10%;
+    top: 0;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: scroll;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation-name: swoop;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-delay: 0s;
+    animation-direction: alternate;
+    animation-fill-mode: none;
+    animation-play-state: running;
+}
 
+@keyframes swoop {
+    0% {
+        transform: scale(.3);
+        background-color: rgba(0, 0, 0, 0.0);
+        border-radius: 100%;
+    }
+    50% {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    100% {
+        transform: scale(1.0);
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
+
+
+.treasure-scroll-content {
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    color: #ffffff;
+}

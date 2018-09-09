@@ -89,14 +89,12 @@ const instrumentImages = [
     'images/instruments/acoustic-guitar-2.png',
     'images/instruments/drum-kit-1.png',
     'images/instruments/drum-kit-2.png',
-    'images/instruments/drum-kit-3.png',
     'images/instruments/electric-guitar-1.png',
     'images/instruments/electric-guitar-2.png',
     'images/instruments/electric-guitar-3.png',
     'images/instruments/electric-guitar-4.png',
     'images/instruments/mic-1.png',
     'images/instruments/mic-2.png',
-    'images/instruments/piano-1.png',
     'images/instruments/piano-2.png',
     'images/instruments/upright-bass.png'
 ];
@@ -257,23 +255,105 @@ function changeEnemyClass(x, y) {
     }
 }
 
+let treasureElement = document.createElement('div')
+treasureElement.className = 'treasure-scroll treasure-scroll-content'
+let treasureText = document.createTextNode('');
+
 
 // Fill out possible treasure chest contents
-function treasureChest() {
-    let diceRoll = Math.floor(Math.random() * 2);
-    switch (diceRoll) {
-        case 0:
-            heroHP(20);
-            break;
-        case 1:
-            heroHP(-3);
-            break;
-        case 2:
-            heroHP(5);
-            break;
-    }
+function treasureChest(x, y) {
+    for (let i = 0; i < chests.length; i++) {
+        const chest = chests[i];
+        if (chest.x == x && chest.y == y) {
+            let diceRoll = Math.floor(Math.random() * 9);
+            switch (diceRoll) {
+                case 0:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'You found a salad.  Yeah, it\'s kind of weird that it\'s in a treasure chest, but it\'s still fresh!  Gain 10 HP!'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(10);
+                    break;
+                case 1:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'A surprise Chuck Norris attack!  Lose 10 HP.'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(-10)
+                    break;
+                case 2:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'O\'Hara actually got a hit on you!  Lose 5 HP.'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(-5)
+                    break;
+                case 3:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'This treasure chest leads to a hidden room with a nice bed and many amenities.  You take a rest and recharge 20 HP!'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(20)
+                    break;
+                case 4:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'Beef in oyster sauce!  Bruce\'s favorite dish!  This will surely help vanquish those wannabe glam rockers! Gain 25 HP!'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(25)
+                    break;
+                case 5:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'You got beat up by a gang of roadies!  They licked ya pretty good.  Lose 20 HP'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(-20)
+                    break;
+                case 6:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'Some half melted chocolate bars.  Gain 5 HP.'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(5)
+                    break;
+                case 7:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'A fireball flew out of the chest!  Lose 5 HP.'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(-5)
+                    break;
+                case 8:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'Clean water to drink with a bowl of rice gives you a quick boost.  Gain 10 HP!'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 6000)
+                    heroHP(10)
+                    break;
+            }
 
+        }
+    }
 }
+
 
 // Global buttons and text for hero
 let fightElement = document.createElement('div')
@@ -335,10 +415,10 @@ function appendFightButtons() {
 
 function addEventListeners() {
     fightButton1.addEventListener('click', function() { heroTurn('Punch') })
-    fightButton2.addEventListener('click', function(){ heroTurn('Low Kick') })
-    fightButton3.addEventListener('click', function(){ heroTurn('Roundhouse') })
-    fightButton4.addEventListener('click', function(){ heroTurn('Dragonstomp') })
-    fightButton5.addEventListener('click', function(){ location.reload() })
+    fightButton2.addEventListener('click', function() { heroTurn('Low Kick') })
+    fightButton3.addEventListener('click', function() { heroTurn('Roundhouse') })
+    fightButton4.addEventListener('click', function() { heroTurn('Dragonstomp') })
+    fightButton5.addEventListener('click', function() { location.reload() })
 }
 
 
@@ -363,242 +443,299 @@ function heroTurn(move) {
             case 1:
             case 2:
             case 3:
-                console.log('hit!')
-                fightText.textContent = 'punch!'
+                fightText.textContent = 'Punch landed!'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
                 fightButtonText4.textContent = ''
-                enemyHP(-10);
-
-
+                enemyHP(-5);
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
                     changeEnemyClass(hero.x, hero.y);
                     heroWins()
-
                 }
-                heroDiceRoll = 0;
                 break;
             case 4:
-                fightText.textContent = 'punch!'
+                fightText.textContent = 'Hit him hard!'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
                 fightButtonText4.textContent = ''
-                enemyHP(-15);
-                console.log('hit!')
+                enemyHP(-10);
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
                     changeEnemyClass(hero.x, hero.y);
                     heroWins();
                 }
-                heroDiceRoll = 0
                 break;
             case 5:
-                fightText.textContent = 'punch!'
+                fightText.textContent = 'You missed!'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
                 fightButtonText4.textContent = ''
-                enemyHP(-15)
-                console.log('hit!')
-
+                enemyHP(0);
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
                     changeEnemyClass(hero.x, hero.y);
                     heroWins()
                 }
-                heroDiceRoll = 0
+                break;
+        }
+    }
+
+
+    if (move == 'Low Kick') {
+        let heroDiceRoll = Math.floor(Math.random() * 6)
+        switch (heroDiceRoll) {
+            case 0:
+            case 1:
+            case 2:
+                fightText.textContent = 'Kick landed!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-10);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
+                break;
+            case 3:
+                fightText.textContent = 'Swept him right off his feet!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-15);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins();
+                }
+                break;
+            case 4:
+            case 5:
+                fightText.textContent = 'Kick to the wind.  Missed him!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(0);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
+                break;
+        }
+    }
+    if (move == 'Roundhouse') {
+        let heroDiceRoll = Math.floor(Math.random() * 6)
+        switch (heroDiceRoll) {
+            case 0:
+            case 1:
+                fightText.textContent = 'Spun around and knocked him right in the teeth!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-15);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
+                break;
+            case 2:
+                fightText.textContent = 'Double roundhouse!  He didn\'t even know which way to fall!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-25);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins();
+                }
+                break;
+            case 3:
+            case 4:
+            case 5:
+                fightText.textContent = 'Whipped around but got nothin\' but air.'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(0);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
+                break;
+        }
+    }
+    if (move == 'Dragonstomp') {
+        let heroDiceRoll = Math.floor(Math.random() * 6)
+        switch (heroDiceRoll) {
+            case 0:
+                fightText.textContent = 'DRAGONSTOMP!'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(-1000);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                fightText.textContent = 'Didn\'t get the stomp down this time.'
+                fightButtonText1.textContent = ''
+                fightButtonText2.textContent = ''
+                fightButtonText3.textContent = ''
+                fightButtonText4.textContent = ''
+                enemyHP(0);
+                if (kissArmyHP > 0) {
+                    setTimeout(function() { enemyTurn() }, 2000);
+                } else {
+                    changeEnemyClass(hero.x, hero.y);
+                    heroWins()
+                }
                 break;
         }
     }
 }
 
-//     fightButton2.addEventListener('click', function() {
-//         let hero2DiceRoll = Math.floor(Math.random() * 6)
-//         switch (hero2DiceRoll) {
-//             case 0:
-//             case 1:
-//             case 2:
-//             case 3:
-//                 console.log('Hit!');
-//                 enemyHP(-10);
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins()
-
-//                 }
-//                 hero2DiceRoll = 0
-//                 break;
-//             case 4:
-//                 console.log('Nice! Extra hard punch!')
-//                 enemyHP(-15);
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins();
-//                 }
-//                 hero2DiceRoll = 0
-//                 break;
-//             case 5:
-//                 console.log('You missed!');
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins()
-//                 }
-//                 hero2DiceRoll = 0
-//                 break;
-//         }
-//     })
-//     fightButton3.addEventListener('click', function() {
-//         let hero3DiceRoll = Math.floor(Math.random() * 6)
-//         switch (hero3DiceRoll) {
-//             case 0:
-//             case 1:
-//             case 2:
-//             case 3:
-//                 console.log('Hit!');
-//                 enemyHP(-10);
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins()
-
-//                 }
-//                 hero3DiceRoll = 0
-//                 break;
-//             case 4:
-//                 console.log('Nice! Extra hard punch!')
-//                 enemyHP(-15);
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins();
-//                 }
-//                 hero3DiceRoll = 0
-//                 break;
-//             case 5:
-//                 console.log('You missed!');
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins()
-//                 }
-//                 hero3DiceRoll = 0
-//                 break;
-//         }
-//     })
-//     fightButton4.addEventListener('click', function() {
-//         let hero4DiceRoll = Math.floor(Math.random() * 6)
-//         switch (hero4DiceRoll) {
-//             case 0:
-//             case 1:
-//             case 2:
-//             case 3:
-//                 console.log('Hit!');
-//                 enemyHP(-10);
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins()
-
-//                 }
-//                 hero4DiceRoll = 0
-//                 break;
-//             case 4:
-//                 console.log('Nice! Extra hard punch!')
-//                 enemyHP(-15);
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins();
-//                 }
-//                 hero4DiceRoll = 0
-//                 break;
-//             case 5:
-//                 console.log('You missed!');
-//                 
-//                 if (kissArmyHP > 0) {
-//                     enemyTurn();
-//                 } else {
-//                     changeEnemyClass(hero.x, hero.y);
-//                     heroWins()
-//                 }
-//                 hero4DiceRoll = 0
-//                 break;
-//         }
-
-//     })
-// } else {
-//     setTimeout(enemyTurn, 2000);
-// }
-
-
-
-
-
-
 function enemyTurn() {
-    let diceRoll = Math.floor(Math.random() * 2)
+    let diceRoll = Math.floor(Math.random() * 10)
     switch (diceRoll) {
         case 0:
             fightText.textContent = 'You got smacked!'
-            heroHP(-20);
-            if (bruceLeeHP <= 0) {
-                heroLoses()
-            } else {
-                setTimeout(function() { heroTurn('makeMove') }, 2000)
-            }
-
-            break;
-        case 1:
-            fightText.textContent = 'You got kicked!'
             heroHP(-5);
             if (bruceLeeHP <= 0) {
                 heroLoses()
             } else {
                 setTimeout(function() { heroTurn('makeMove') }, 2000)
             }
-
             break;
-
+        case 1:
+            fightText.textContent = 'Poked you right in the eye!'
+            heroHP(-10);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 2:
+            fightText.textContent = 'Hit with a guitar across the head.  Hard!'
+            heroHP(-15);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 3:
+            fightText.textContent = 'Drumstick smacked right in your elbow.  Ouch!'
+            heroHP(-15);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 4:
+            fightText.textContent = 'The band called the roadies!  Hit you from all directions!'
+            heroHP(-20);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 5:
+            fightText.textContent = 'Punched in the teeth!'
+            heroHP(-5);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 6:
+            fightText.textContent = 'Kicked in the teeth!'
+            heroHP(-10);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 7:
+            fightText.textContent = 'He whiffed the hit!'
+            heroHP(0);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 8:
+            fightText.textContent = 'He missed!'
+            heroHP(0);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
+        case 9:
+            fightText.textContent = 'You dodged that like Bruce Lee always does!'
+            heroHP(0);
+            if (bruceLeeHP <= 0) {
+                heroLoses()
+            } else {
+                setTimeout(function() { heroTurn('makeMove') }, 2000)
+            }
+            break;
     }
 }
+
 
 
 // Win or lose battle
 
 function heroWins() {
-    fightText.textContent = 'Congratulations!  You have defeated the Kiss Army!  Try again to vanquish another member of that horrible band!'
+    fightText.textContent = 'Congratulations!  You have defeated the Kiss Army!  Try again to take on another member of that horrible band!'
     fightButton5.textContent = 'Let\'s roll!'
 
 }
 
 function heroLoses() {
     fightText.textContent = 'You died!  Let\'s try again!'
-    setTimeout(function(){location.reload()}, 2000)
+    setTimeout(function() { location.reload() }, 2000)
 }
 
 
@@ -624,10 +761,11 @@ const moveHeroTo = function(x, y) {
     hero[0].style.left = (x * 20).toString() + 'px';
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
+        treasureChest(x, y);
         changeChestClass(x, y);
     }
     if (isEnemyInCoordinate(x, y)) {
-        enemyFight(x, y)
+        enemyFight(x, y);
 
     }
 }
