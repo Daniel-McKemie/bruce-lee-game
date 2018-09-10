@@ -3,7 +3,7 @@ https://www.danielmckemie.com/wdi-project-1-game/index.html
 
 
 ## Description:
-A grid based RPG game where the player controls Bruce Lee, who goes around fighting members of the band Kiss.  The game board consists of instruments that block your maneuvering around the board, treasure chests that hold hidden secrets that help or harm Bruce Lee, and a member of the band Kiss, who is the boss to pass the level.  The game board's contents are randomly generated each time the game is loaded.
+A grid based RPG game where the player controls Bruce Lee, who goes around fighting members of the band Kiss.  The game board consists of instruments that block your maneuvering around the board, treasure chests that hold hidden secrets that help or harm Bruce Lee, members of the band Kiss, who are enemies that need to be defeated in order to win the game.  The game board's contents are randomly generated each time the game is loaded.
 
 Bruce Lee has four moves to battle his opponent, each one deals a different range of damage, and differs from the chances of striking.
 
