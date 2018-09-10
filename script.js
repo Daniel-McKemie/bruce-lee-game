@@ -58,7 +58,10 @@ for (let i = 0; i < 6; i++) {
 
 // Enemy placement
 const enemies = [
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 8 + 1) }
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 8 + 1), Name: 'gene' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 8 + 1), Name: 'paul' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 8 + 1), Name: 'ace' },
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 8 + 1), Name: 'peter' }
 
 ];
 
@@ -78,7 +81,7 @@ let heroHP = function(x) {
     heroLifeBox[0].innerHTML = `Bruce's HP: ${value}`;
     bruceLeeHP = value;
 };
-heroHP(40);
+heroHP(80);
 
 
 function enemyHP(x) {
@@ -148,20 +151,31 @@ function renderChests() {
 };
 renderChests();
 
-const enemyNames = ['gene', 'ace', 'paul', 'peter']
-
 function renderEnemies() {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         livingEnemyElement = document.createElement('div');
-        livingEnemyElement.className = ('enemy enemy-living')
-        livingEnemyElement.id = enemyNames[Math.floor(Math.random() * enemyNames.length)];
+        livingEnemyElement.className = ('enemy enemy-living');
+        switch (enemy.Name) {
+            case 'gene':
+                livingEnemyElement.id = ('gene');
+                break;
+            case 'paul':
+                livingEnemyElement.id = ('paul');
+                break;
+            case 'ace':
+                livingEnemyElement.id = ('ace');
+                break;
+            case 'peter':
+                livingEnemyElement.id = ('peter');
+                break;
+        }
         livingEnemyElement.style.left = (enemy.x * 40).toString() + 'px';
         livingEnemyElement.style.top = (enemy.y * 40).toString() + 'px';
         document.getElementsByClassName('board')[0].appendChild(livingEnemyElement);
     }
+}
 
-};
 renderEnemies();
 
 // Prevent any two items from layering.  Preventative
@@ -455,17 +469,41 @@ function appendFightButtons() {
     fightElement.appendChild(fightButton4);
     addEventListeners()
     setTimeout(function() { heroTurn('makeMove') }, 6000)
-    enemyPopupAudio.currentTime = 0;
-    enemyPopupAudio.play();
 
 }
 
 function addEventListeners() {
-    fightButton1.addEventListener('click', function() { heroTurn('Punch') })
-    fightButton2.addEventListener('click', function() { heroTurn('Low Kick') })
-    fightButton3.addEventListener('click', function() { heroTurn('Roundhouse') })
-    fightButton4.addEventListener('click', function() { heroTurn('Dragonstomp') })
-    fightButton5.addEventListener('click', function() { location.reload() })
+    fightButton1.addEventListener('click', punch)
+    fightButton2.addEventListener('click', lowKick)
+    fightButton3.addEventListener('click', roundHouse)
+    fightButton4.addEventListener('click', dragonstomp)
+
+}
+
+function removeEventListeners() {
+    fightButton1.removeEventListener('click', punch)
+    fightButton2.removeEventListener('click', lowKick)
+    fightButton3.removeEventListener('click', roundHouse)
+    fightButton4.removeEventListener('click', dragonstomp)
+
+}
+
+
+// Bruce Lee moves
+function punch() {
+    heroTurn('Punch')
+}
+
+function lowKick() {
+    heroTurn('Low Kick')
+}
+
+function roundHouse() {
+    heroTurn('Roundhouse')
+}
+
+function dragonstomp() {
+    heroTurn('Dragonstomp')
 }
 
 // Fight scenes
@@ -769,28 +807,75 @@ function enemyTurn() {
 
 // Win or lose battle
 function heroWins() {
-    fightText.textContent = 'Congratulations!  You have defeated the Kiss Army!  Try again to take on another member of that horrible band!'
-    gameplayAudio.pause();
-    gameWinAudio.play();
-    gameWinAudio.volume = 0.2
-    setTimeout(function() { location.reload() }, 11000);
-
+    document.body.addEventListener('keydown', keyPresses)
+    removeEventListeners()
+    fightText.textContent = 'Great work!  Another one down!  Let\'s go smash another!'
+    setTimeout(function() { fightElement.remove() }, 3000)
+    setTimeout(function() { fightText.textContent = '' }, 3000)
+    enemyCount()
+    enemyHP(0)
 }
 
 function heroLoses() {
     fightText.textContent = 'You died!  Let\'s try again!'
-    setTimeout(function() { location.reload() }, 2000);
+    setTimeout(function() { location.reload() }, 3000);
 }
+
+function enemyCount() {
+    if (enemies.length == 0) {
+        appendFightButtons()
+        fightText.textContent = 'Congratulations!  You defeated the Kiss Army!  Try again because winning that showdown once is just never enough!'
+        gameplayAudio.pause();
+        gameWinAudio.play();
+        gameWinAudio.volume = 0.3
+        setTimeout(function() { location.reload() }, 10500);
+    }
+}
+// function heroLoses() {
+//     fightText.textContent = 'You died!  Let\'s try again!'
+//     setTimeout(function() { location.reload() }, 2000);
+// }
 
 // Initiates and sets up fight scene
 function enemyFight(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
-            enemyHP(60);
-            fightText = document.createTextNode('Gene, Paul, Ace, or Catman?  Doesn\'t matter who it is, these guys are all pretty tough to beat...But wait, you\'re BRUCE LEE!  Let\'s throw down!');
-            appendFightButtons()
-            setTimeout(heroTurn, 6000)
+            switch (enemy.Name) {
+                case 'gene':
+                    enemyHP(40);
+                    fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
+                    appendFightButtons()
+                    enemyPopupAudio.currentTime = 0;
+                    enemyPopupAudio.play();
+                    setTimeout(heroTurn, 6000)
+                    break;
+                case 'paul':
+                    enemyHP(30);
+                    fightText = document.createTextNode('Paul Stanley descended upon you like a star falling from the sky!');
+                    appendFightButtons()
+                    enemyPopupAudio.currentTime = 0;
+                    enemyPopupAudio.play();
+                    setTimeout(heroTurn, 6000)
+                    break;
+                case 'ace':
+                    enemyHP(20);
+                    fightText = document.createTextNode('That\'s not Sting...That\'s Ace Frehley! And he\'s ready to rumble!');
+                    appendFightButtons()
+                    enemyPopupAudio.currentTime = 0;
+                    enemyPopupAudio.play();
+                    setTimeout(heroTurn, 6000)
+                    break;
+                case 'peter':
+                    enemyHP(10);
+                    fightText = document.createTextNode('This weird cat lookin\' dude just threw a drumstick at you!  Peter Criss wants to fight!');
+                    appendFightButtons()
+                    enemyPopupAudio.currentTime = 0;
+                    enemyPopupAudio.play();
+                    setTimeout(heroTurn, 6000)
+                    break;
+
+            }
         }
     }
 }
@@ -858,6 +943,7 @@ function moveDown() {
 // Key commands for movements
 
 document.body.addEventListener('keydown', keyPresses)
+
 function keyPresses(e) {
     const keyCode = e.keyCode;
     if ([37, 38, 39, 40, 32].includes(keyCode)) {
