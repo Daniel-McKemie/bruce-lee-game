@@ -1,22 +1,33 @@
-# project1-proposal
-Daniel McKemie - Project 1 Proposal
+# Daniel McKemie - Bruce Lee vs. The Kiss Army
+http://www.danielmckemie.com/portfolio/bruce-lee
 
-Objective:
-My game will be a combination of a 2D tile based game and RPG. The main character will explore the dungeon, trying to rescue the princess from the primary villain. Along the way, the hero will solve riddles to gain extra life, and fight enemies to get one step closer to rescuing the princess.
-The game board is a 12x20 grid, with three stages. Each stage contains a serious of treasure chests that the hero may open. The treasure chests contain either damaging items that take away their life, or a riddle scroll, that gives them the opportunity to gain a life by answering the question correctly. Whether the treasure chest contains a damaging element, or a riddle scroll, is chosen at random.
-Upon reaching the enemy boss, the battle will proceed in RPG style fashion. The JS code for these battles will be the same model as dice rolling in classic table RPG games. For example:
-Hero has three moves: Attack
-Cast Spell
-Throw Object
-The structure is this: let heroHP = 30;
-let enemyHP = 30;
-if (move == ‘attack’) {
-let roll == Math.floor(Math.random() * 3) if(roll == 1) {
-alert(‘Missed!’) checkHeroHP() checkEnemyHP()
-} if(roll == 2) { enemyHP -= 5;
-alert(‘You damaged the enemy!’) checkHeroHP() checkEnemyHP()
-} if(roll == 3) { enemyHP -= 8;
-alert(‘You damaged the enemy!’); checkHeroHP()
-checkEnemyHP()
-and so on...(but will actually be written with a switch statement)
-The hero and enemy change moves, until one is defeated. Once the enemy is defeated. The hero will proceed to the next level with a higher HP count, with harder riddles, and a stronger second enemy. On the third stage, the hero wins if they defeat the enemy.
+
+## Description:
+A grid based RPG game where the player controls Bruce Lee, who goes around fighting members of the band Kiss.  The game board consists of instruments that block your maneuvering around the board, treasure chests that hold hidden secrets that help or harm Bruce Lee, and a member of the band Kiss, who is the boss to pass the level.  The game board's contents are randomly generated each time the game is loaded.
+
+Bruce Lee has four moves to battle his opponent, each one deals a different range of damage, and differs from the chances of striking.
+
+
+## Instructions for game play:
+Move Bruce Lee around moving the arrow keys.  Treasure chests unlock hidden secrets that could harm or hurt you.  When approached by an enemy, click on the move you would like to make, in classic RPG fashion!
+
+
+### Technologies used:
+The primary elements of the game were created in Javascript; added, removed, and manipulated in the DOM as needed.  I wanted to have a more dynamic program, as opposed to building stationary elements in HTML, and manipulating them later; the static elements (such as instructions, etc.), are written into the HTML.  The game board and its elements are all randomly generated and placed on the board with each rendering of the game.
+
+I used CSS animations to manipulate the modals coming into the screen upon landing on a treasure chest or enemy.  When in battle, event listeners were placed on the appropriate buttons, which trigger turns back and forth between the player and computer, with each round dealing a certain amount of damage to the other, until one player is out of life.
+
+
+### Approach and problems:
+It was important to me to have a high functioning game demonstrating the technologies learned up to this point, and express my own interests in these technologies.  One interest of mine is the use of randomness in generating the game board.  The placement of all the elements and what is inside the elements (in this case, treasure chest or background-image of an instrument), to be randomly generated was a goal.  While it doesn't produce highly interesting results in its own right, the technology and approach implemented is something that I feel could be used in my work later down the road, and now I have a sound grasp (and reference), on how this method works.  Furthermore, I felt that I was successful in creating a game that was constructed and manipulated primarily through the DOM, instead of focusing on creating these elements in the HTML document.
+
+The biggest problem that I faced, that went unsolved even to the end, was having multiple enemies on the board during one round.  The problem showed itself as multiple triggers of layered event listeners in the battle screen buttons, after fighting more than one enemy.  There was an issue with the rendering and removal of event listeners, and it was causing a major flaw in the battle mode.  I troubleshot the event listeners, turn based style of the game, function calls and placements, switch statements, and many other things, to no avail.  This is the one problem that took most of my time.  I eventually had to move on, and have the game exist as a single enemy stage; which explains the change in branch in my Github workflow.
+
+The final issue, is that the game is not responsive.  It was my original goal to create a game that was mobile friendly, however this proved to be much more complicated after the construction of my collision detection methods in the game.  It's very reliant on the pixel size of the board, the grid, and the elements within that grid.  This also poses issues in responsiveness on the desktop, because it realigns the entire board, causing the grid to be reassigned, which confuses the collision detection.
+
+With that being said, I was able to construct respnsiveness for every other element in the game, EXCEPT for the board itself.  The backgrounds, texts, and splashpage, are all responsive using flexbox.
+
+
+
+
+

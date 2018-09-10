@@ -1,6 +1,7 @@
 // Movement/collision detection borrowed from Eric Lewis' article:
 // https://wakeful-baritone.glitch.me/
 
+// Splashpage listener to initialize game play music
 document.body.addEventListener('keydown', function(e) {
     const keyCode = e.keyCode;
     if ([37, 38, 39, 40, 32].includes(keyCode)) {
@@ -10,12 +11,10 @@ document.body.addEventListener('keydown', function(e) {
         case 32:
             splash = document.getElementsByClassName('startScreen')
             splash[0].remove()
-            boards = document.getElementsByClassName('container')
+            document.body.overflow = 'scroll'
             break;
     }
 })
-
-
 
 // Audio variables
 const enemyPopupAudio = document.getElementById('popup');
@@ -33,13 +32,13 @@ const hero = { x: 0, y: 0 };
 
 // Brick placement & for loop to place
 let bricks = [
-    { x: 19, y: 11 },
+    { x: 19, y: 9 },
 
 ];
 for (let i = 0; i < 39; i++) {
     bricks.push({
         x: Math.floor(Math.random() * 18) + 2,
-        y: Math.floor(Math.random() * 10) + 1,
+        y: Math.floor(Math.random() * 8) + 1,
     })
 };
 
@@ -52,14 +51,14 @@ let chests = [
 for (let i = 0; i < 6; i++) {
     chests.push({
         x: Math.floor(Math.random() * 18) + 2,
-        y: Math.floor(Math.random() * 10) + 1,
+        y: Math.floor(Math.random() * 8) + 1,
     })
 };
 
 
 // Enemy placement
 const enemies = [
-    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 10 + 1) }
+    { x: Math.floor(Math.random() * 18 + 1), y: Math.floor(Math.random() * 8 + 1) }
 
 ];
 
@@ -79,7 +78,7 @@ let heroHP = function(x) {
     heroLifeBox[0].innerHTML = `Bruce's HP: ${value}`;
     bruceLeeHP = value;
 };
-heroHP(50);
+heroHP(40);
 
 
 function enemyHP(x) {
@@ -166,8 +165,6 @@ function renderEnemies() {
 renderEnemies();
 
 // Prevent any two items from layering.  Preventative
-
-
 // hero layering built in to random locations of objects.
 function preventBrickLayering(x, y) { // Gives enemies priority
     for (let i = 0; i < bricks.length; i++) {
@@ -201,12 +198,9 @@ for (let i = 0; i < chests.length; i++) {
     preventBrickLayering(chests[i].x, chests[i].y)
 };
 
-
-
-
 // Sets coordinates of dungeon
 const isCoordinateInGrid = function(x, y) {
-    if (x < 0 || y < 0 || x > 19 || y > 11) {
+    if (x < 0 || y < 0 || x > 19 || y > 9) {
         return false
     }
     return true
@@ -299,7 +293,7 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(10);
                     break;
                 case 1:
@@ -310,18 +304,18 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(-10)
                     break;
                 case 2:
                     treasureElement.appendChild(treasureText)
-                    treasureText.textContent = 'O\'Hara actually got a hit on you!  Lose 5 HP.'
+                    treasureText.textContent = 'O\'Hara popped out and actually got a hit on you!  Lose 5 HP.'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
                     treasureAudio.currentTime = 0;
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(-5)
                     break;
                 case 3:
@@ -332,7 +326,7 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(20)
                     break;
                 case 4:
@@ -343,7 +337,7 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(25)
                     break;
                 case 5:
@@ -354,7 +348,7 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(-20)
                     break;
                 case 6:
@@ -365,7 +359,7 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(5)
                     break;
                 case 7:
@@ -376,18 +370,18 @@ function treasureChest(x, y) {
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(-5)
                     break;
                 case 8:
                     treasureElement.appendChild(treasureText)
-                    treasureText.textContent = 'Clean water to drink with a bowl of rice gives you a quick boost.  Gain 10 HP!'
+                    treasureText.textContent = 'You found some clean water to drink with a bowl of rice to eat.  It gives you a quick boost.  Gain 10 HP!'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
                     treasureAudio.currentTime = 0;
                     treasureAudio.play();
                     setTimeout(function removeTreasure() {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
-                    }, 4000)
+                    }, 5000)
                     heroHP(10)
                     break;
             }
@@ -476,7 +470,7 @@ function heroTurn(move) {
                 }
                 break;
             case 4:
-                fightText.textContent = 'Hit him hard!'
+                fightText.textContent = 'You hit him hard!'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
@@ -527,7 +521,7 @@ function heroTurn(move) {
                 }
                 break;
             case 3:
-                fightText.textContent = 'Swept him right off his feet!'
+                fightText.textContent = 'You swept him right off his feet!'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
@@ -542,7 +536,7 @@ function heroTurn(move) {
                 break;
             case 4:
             case 5:
-                fightText.textContent = 'Kick to the wind.  Missed him!'
+                fightText.textContent = 'Kick to the wind.  You missed him!'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
@@ -592,7 +586,7 @@ function heroTurn(move) {
             case 3:
             case 4:
             case 5:
-                fightText.textContent = 'Whipped around but got nothin\' but air.'
+                fightText.textContent = 'You whipped around but got nothin\' but air.'
                 fightButtonText1.textContent = ''
                 fightButtonText2.textContent = ''
                 fightButtonText3.textContent = ''
@@ -659,7 +653,7 @@ function enemyTurn() {
             }
             break;
         case 1:
-            fightText.textContent = 'Poked you right in the eye!'
+            fightText.textContent = 'He poked you right in the eye!'
             heroHP(-10);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -668,7 +662,7 @@ function enemyTurn() {
             }
             break;
         case 2:
-            fightText.textContent = 'Hit with a guitar across the head.  Hard!'
+            fightText.textContent = 'You got hit with a guitar across the head.  Hard!'
             heroHP(-15);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -677,7 +671,7 @@ function enemyTurn() {
             }
             break;
         case 3:
-            fightText.textContent = 'Drumstick smacked right in your elbow.  Ouch!'
+            fightText.textContent = 'He smacked a drumstick right on your elbow.  Ouch!'
             heroHP(-15);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -695,7 +689,7 @@ function enemyTurn() {
             }
             break;
         case 5:
-            fightText.textContent = 'Punched in the teeth!'
+            fightText.textContent = 'You got punched in the teeth!'
             heroHP(-5);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -704,7 +698,7 @@ function enemyTurn() {
             }
             break;
         case 6:
-            fightText.textContent = 'Kicked in the teeth!'
+            fightText.textContent = 'You got kicked in the teeth!'
             heroHP(-10);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -731,7 +725,7 @@ function enemyTurn() {
             }
             break;
         case 9:
-            fightText.textContent = 'You dodged that like Bruce Lee always does!'
+            fightText.textContent = 'You dodged that hit in classic Bruce Lee fashion!'
             heroHP(0);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -742,10 +736,7 @@ function enemyTurn() {
     }
 }
 
-
-
 // Win or lose battle
-
 function heroWins() {
     fightText.textContent = 'Congratulations!  You have defeated the Kiss Army!  Try again to take on another member of that horrible band!'
     gameplayAudio.pause();
@@ -760,14 +751,13 @@ function heroLoses() {
     setTimeout(function() { location.reload() }, 2000);
 }
 
-
 // Initiates and sets up fight scene
 function enemyFight(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
             enemyHP(60);
-            fightText = document.createTextNode('The grand and noble leader, with an always fledgling reality TV career, is mad because you are making fun of his band.  Get ready to battle!!!');
+            fightText = document.createTextNode('Gene, Paul, Ace, or Catman?  Doesn\'t matter who it is, these guys are all pretty tough to beat...But wait, you\'re BRUCE LEE!  Let\'s throw down!');
             appendFightButtons()
             setTimeout(heroTurn, 6000)
         }
@@ -790,7 +780,7 @@ const moveHeroTo = function(x, y) {
     }
 }
 
-// THIS IS IMPORTANT!!!
+
 // Detect object in plot & collision detection
 const canMoveTo = function(x, y) {
     if (!isCoordinateInGrid(x, y)) {
@@ -804,8 +794,6 @@ const canMoveTo = function(x, y) {
     }
     return true
 };
-
-
 
 // Movements
 function moveLeft() {

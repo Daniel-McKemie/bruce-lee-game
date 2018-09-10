@@ -11,15 +11,28 @@ body {
     background-size: 100%;
     color: #ffffff;
     padding-top: 2vh;
+    overflow: hidden;
 }
 
+.container {
+    height: 75vh;
+}
+
+.page-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .board {
     position: relative;
     background: url("images/backgrounds/wood-floor.png");
-    height: 240px;
+    height: 200px;
     width: 400px;
     margin: 0 auto 1rem;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .hero {
@@ -120,6 +133,7 @@ body {
     border: 1px solid #888;
     width: 80%;
     color: #ffffff;
+    font-family: 'Press Start 2P', cursive;
 }
 
 .scroll-button:hover {
@@ -166,19 +180,37 @@ body {
     border: 1px solid #888;
     width: 80%;
     color: #ffffff;
+    font-family: 'Press Start 2P', cursive;
 }
 
 .hero-hp {
     background-color: rgba(0,0,0,0.5);
     font-family: 'Press Start 2P', cursive;
+    font-size: 8px;
+}
+
+.instructions {
+    background-color: rbga(0,0,0,0.5);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 6px;
 }
 
 .startScreen {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-bottom: 50%;
     height: 290px;
     width: 400px;
+<<<<<<< HEAD
+}
+=======
+}
+
+.credits {
+    background-color: rgba(0,0,0,0.5);
+    font-family: 'Press Start 2P', cursive;
+    font-height: 0.5;
+    font-size: 6px;
 }
 
 
@@ -187,3 +219,4 @@ body {
 
 
 
+>>>>>>> 9a642902f151dd18784f25aec4bb1a352d6a697c
