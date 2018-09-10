@@ -276,7 +276,7 @@ function changeEnemyClass(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
-            document.body.addEventListener('keydown', keyPresses)
+            setTimeout(function() {document.body.addEventListener('keydown', keyPresses)}, 4000)
             doneEnemy = document.getElementsByClassName('enemy enemy-living');
             doneEnemy[i].remove()
             enemies.splice(i, 1);
@@ -388,7 +388,7 @@ function treasureChest(x, y) {
                     break;
                 case 6:
                     treasureElement.appendChild(treasureText)
-                    treasureText.textContent = 'Some half melted chocolate bars.  Gain 5 HP.'
+                    treasureText.textContent = 'You found some half melted chocolate bars.  Gain 5 HP.'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
                     treasureAudio.currentTime = 0;
                     treasureAudio.play();
@@ -416,7 +416,7 @@ function treasureChest(x, y) {
                     break;
                 case 8:
                     treasureElement.appendChild(treasureText)
-                    treasureText.textContent = 'You found some clean water to drink with a bowl of rice to eat.  It gives you a quick boost.  Gain 10 HP!'
+                    treasureText.textContent = 'You found some clean water to drink.  Gain 10 HP!'
                     document.getElementsByClassName('board')[0].appendChild(treasureElement);
                     treasureAudio.currentTime = 0;
                     treasureAudio.play();
@@ -821,7 +821,6 @@ function enemyTurn() {
 
 // Win or lose battle
 function heroWins() {
-    document.body.addEventListener('keydown', keyPresses)
     removeEventListeners();
     fightText.textContent = 'Great work!  Another one down!  Watch out for random roadies!  They can get nasty.  Let\'s go smash another!'
     setTimeout(function() { fightElement.remove() }, 4000)
@@ -838,7 +837,7 @@ function heroLoses() {
 function enemyCount() {
     if (enemies.length == 0) {
         appendFightButtons()
-        fightText.textContent = 'Congratulations!  You defeated the Kiss Army!  Try again because winning that showdown once is just never enough!'
+        fightText.textContent = 'Congratulations!  You defeated the Kiss Army!'
         gameplayAudio.pause();
         gameWinAudio.play();
         gameWinAudio.volume = 0.4
