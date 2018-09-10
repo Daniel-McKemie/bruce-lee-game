@@ -28,8 +28,8 @@ body {
 .board {
     position: relative;
     background: url("images/backgrounds/wood-floor.png");
-    height: 200px;
-    width: 400px;
+    height: 400px;
+    width: 800px;
     margin: 0 auto 1rem;
     display: flex;
     flex-wrap: wrap;
@@ -38,23 +38,23 @@ body {
 .hero {
     position: absolute;
     background-size: contain;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
     background-image: url(images/backgrounds/bruce.png);
 }
 
 .brick {
     position: absolute;
     background-size: contain;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
 }
 
 .chest {
     position: absolute;
     background-size: contain;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
 }
 
 .chest-closed {
@@ -68,8 +68,8 @@ body {
 .enemy {
     position: absolute;
     background-size: contain;
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
 }
 
 .enemy-dead {
@@ -129,7 +129,7 @@ body {
 
 .scroll-content {
     margin: 15% auto;
-    padding: 20px;
+    padding: 40px;
     border: 1px solid #888;
     width: 80%;
     color: #ffffff;
@@ -161,11 +161,11 @@ body {
 
 @keyframes swoop {
     0% {
-        transform: translate(-50px, -50px) skewX(40deg);
+        transform: translate(-100px, -100px) skewX(40deg);
         background-color: #ffffff;
     }   
     80% {
-        transform: translate(150px, 30px) skewX(-40deg);
+        transform: translate(300px, 60px) skewX(-40deg);
     }
     100% {
         transform: translate(0, 0, 0) skewX(0deg);
@@ -176,7 +176,7 @@ body {
 
 .treasure-scroll-content {
     margin: 15% auto;
-    padding: 20px;
+    padding: 40px;
     border: 1px solid #888;
     width: 80%;
     color: #ffffff;
@@ -197,10 +197,10 @@ body {
 
 .startScreen {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-bottom: 50%;
-    height: 290px;
-    width: 400px;
+    height: 580px;
+    width: 100%;
 }
 
 .credits {
@@ -209,11 +209,3 @@ body {
     font-height: 0.5;
     font-size: 6px;
 }
-
-
-
-
-
-
-
->>>>>>> 9a642902f151dd18784f25aec4bb1a352d6a697c

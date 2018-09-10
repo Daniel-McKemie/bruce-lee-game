@@ -98,8 +98,8 @@ function renderBricks() {
         const brick = bricks[i];
         const brickElement = document.createElement('div');
         brickElement.className = 'brick';
-        brickElement.style.left = (brick.x * 20).toString() + 'px';
-        brickElement.style.top = (brick.y * 20).toString() + 'px';
+        brickElement.style.left = (brick.x * 40).toString() + 'px';
+        brickElement.style.top = (brick.y * 40).toString() + 'px';
         document.getElementsByClassName('board')[0].appendChild(brickElement);
         // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     }
@@ -139,8 +139,8 @@ function renderChests() {
         const chest = chests[i];
         closedChestElement = document.createElement('div');
         closedChestElement.className = 'chest chest-closed';
-        closedChestElement.style.left = (chest.x * 20).toString() + 'px';
-        closedChestElement.style.top = (chest.y * 20).toString() + 'px';
+        closedChestElement.style.left = (chest.x * 40).toString() + 'px';
+        closedChestElement.style.top = (chest.y * 40).toString() + 'px';
         document.getElementsByClassName('board')[0].appendChild(closedChestElement);
         // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     }
@@ -156,8 +156,8 @@ function renderEnemies() {
         livingEnemyElement = document.createElement('div');
         livingEnemyElement.className = ('enemy enemy-living')
         livingEnemyElement.id = enemyNames[Math.floor(Math.random() * enemyNames.length)];
-        livingEnemyElement.style.left = (enemy.x * 20).toString() + 'px';
-        livingEnemyElement.style.top = (enemy.y * 20).toString() + 'px';
+        livingEnemyElement.style.left = (enemy.x * 40).toString() + 'px';
+        livingEnemyElement.style.top = (enemy.y * 40).toString() + 'px';
         document.getElementsByClassName('board')[0].appendChild(livingEnemyElement);
     }
 
@@ -249,8 +249,8 @@ function changeChestClass(x, y) {
             chests.splice(i, 1);
             openChestElement = document.createElement('div');
             openChestElement.className = 'chest chest-open';
-            openChestElement.style.left = (chest.x * 20).toString() + 'px';
-            openChestElement.style.top = (chest.y * 20).toString() + 'px';
+            openChestElement.style.left = (chest.x * 40).toString() + 'px';
+            openChestElement.style.top = (chest.y * 40).toString() + 'px';
             document.getElementsByClassName('board')[0].appendChild(openChestElement);
         }
     }
@@ -266,8 +266,8 @@ function changeEnemyClass(x, y) {
             enemies.splice(i, 1);
             deadEnemyElement = document.createElement('div');
             deadEnemyElement.className = 'enemy enemy-dead';
-            deadEnemyElement.style.left = (enemy.x * 20).toString() + 'px';
-            deadEnemyElement.style.top = (enemy.y * 20).toString() + 'px';
+            deadEnemyElement.style.left = (enemy.x * 40).toString() + 'px';
+            deadEnemyElement.style.top = (enemy.y * 40).toString() + 'px';
             document.getElementsByClassName('board')[0].appendChild(deadEnemyElement);
         }
     }
@@ -794,8 +794,8 @@ function enemyFight(x, y) {
 // Allows hero to move
 const moveHeroTo = function(x, y) {
     const hero = document.getElementsByClassName('hero');
-    hero[0].style.top = (y * 20).toString() + 'px';
-    hero[0].style.left = (x * 20).toString() + 'px';
+    hero[0].style.top = (y * 40).toString() + 'px';
+    hero[0].style.left = (x * 40).toString() + 'px';
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
         treasureChest(x, y);
