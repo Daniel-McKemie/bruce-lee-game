@@ -197,13 +197,10 @@ body {
 
 .startScreen {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 50%;
     height: 290px;
     width: 400px;
-<<<<<<< HEAD
-}
-=======
 }
 
 .credits {

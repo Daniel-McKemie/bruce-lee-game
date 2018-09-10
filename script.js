@@ -295,6 +295,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(10);
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 1:
                     treasureElement.appendChild(treasureText)
@@ -306,6 +309,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(-10)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 2:
                     treasureElement.appendChild(treasureText)
@@ -317,6 +323,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(-5)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 3:
                     treasureElement.appendChild(treasureText)
@@ -328,6 +337,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(20)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 4:
                     treasureElement.appendChild(treasureText)
@@ -339,6 +351,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(25)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 5:
                     treasureElement.appendChild(treasureText)
@@ -350,6 +365,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(-20)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 6:
                     treasureElement.appendChild(treasureText)
@@ -361,6 +379,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(5)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 7:
                     treasureElement.appendChild(treasureText)
@@ -372,6 +393,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(-5)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
                 case 8:
                     treasureElement.appendChild(treasureText)
@@ -383,6 +407,9 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(10)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
                     break;
             }
 
@@ -742,7 +769,7 @@ function heroWins() {
     gameplayAudio.pause();
     gameWinAudio.play();
     gameWinAudio.volume = 0.2
-    setTimeout(function() {location.reload() }, 11000);
+    setTimeout(function() { location.reload() }, 11000);
 
 }
 

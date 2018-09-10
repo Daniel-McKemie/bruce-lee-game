@@ -1,5 +1,5 @@
 # Daniel McKemie - Bruce Lee vs. The Kiss Army
-http://www.danielmckemie.com/portfolio/bruce-lee
+
 
 
 ## Description:
@@ -27,7 +27,7 @@ The final issue, is that the game is not responsive.  It was my original goal to
 
 With that being said, I was able to construct respnsiveness for every other element in the game, EXCEPT for the board itself.  The backgrounds, texts, and splashpage, are all responsive using flexbox.
 
-
+The final issue I faced was removing Eventlisteners from the keyboard while a modal was present, allowing for the player to move to other treasures/enemies while one modal is in place.  This does not cause the game to crash, but it can make for a strange user experience, but the game functions normally.
 
 
 
