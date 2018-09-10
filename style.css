@@ -186,13 +186,13 @@ body {
 .hero-hp {
     background-color: rgba(0,0,0,0.5);
     font-family: 'Press Start 2P', cursive;
-    font-size: 8px;
+    font-size: 16px;
 }
 
 .instructions {
     background-color: rbga(0,0,0,0.5);
     font-family: 'Press Start 2P', cursive;
-    font-size: 6px;
+    font-size: 12px;
 }
 
 .startScreen {
@@ -207,5 +207,5 @@ body {
     background-color: rgba(0,0,0,0.5);
     font-family: 'Press Start 2P', cursive;
     font-height: 0.5;
-    font-size: 6px;
+    font-size: 12px;
 }
