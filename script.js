@@ -548,7 +548,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -562,7 +562,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins();
                 }
                 break;
@@ -576,7 +576,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -599,7 +599,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -613,7 +613,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins();
                 }
                 break;
@@ -628,7 +628,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -648,7 +648,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -662,7 +662,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins();
                 }
                 break;
@@ -678,7 +678,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -697,7 +697,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
@@ -715,7 +715,7 @@ function heroTurn(move) {
                 if (kissArmyHP > 0) {
                     setTimeout(function() { enemyTurn() }, 2000);
                 } else {
-                    setTimeout(function() { changeEnemyClass(hero.x, hero.y) }, 6000);
+                    changeEnemyClass(hero.x, hero.y)
                     heroWins()
                 }
                 break;
