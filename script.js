@@ -824,8 +824,8 @@ function heroWins() {
     document.body.addEventListener('keydown', keyPresses)
     removeEventListeners();
     fightText.textContent = 'Great work!  Another one down!  Watch out for random roadies!  They can get nasty.  Let\'s go smash another!'
-    setTimeout(function() { fightElement.remove() }, 6000)
-    setTimeout(function() { fightText.textContent = '' }, 6000)
+    setTimeout(function() { fightElement.remove() }, 4000)
+    setTimeout(function() { fightText.textContent = '' }, 4000)
     enemyCount()
     enemyHP(0)
 }
