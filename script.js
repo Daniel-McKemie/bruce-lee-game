@@ -81,7 +81,7 @@ let heroHP = function(x) {
     heroLifeBox[0].innerHTML = `Bruce's HP: ${value}`;
     bruceLeeHP = value;
 };
-heroHP(80);
+heroHP(60);
 
 
 function enemyHP(x) {
@@ -299,7 +299,7 @@ function treasureChest(x, y) {
     for (let i = 0; i < chests.length; i++) {
         const chest = chests[i];
         if (chest.x == x && chest.y == y) {
-            let diceRoll = Math.floor(Math.random() * 9);
+            let diceRoll = Math.floor(Math.random() * 10);
             document.body.removeEventListener('keydown', keyPresses)
             switch (diceRoll) {
                 case 0:
@@ -424,6 +424,20 @@ function treasureChest(x, y) {
                         document.getElementsByClassName('board')[0].removeChild(treasureElement);
                     }, 5000)
                     heroHP(10)
+                    if (bruceLeeHP <= 0) {
+                        heroLoses()
+                    }
+                    break;
+                case 9:
+                    treasureElement.appendChild(treasureText)
+                    treasureText.textContent = 'A roadie jumped out of the chest and smacked you in the mouth!  Lose 10 HP.'
+                    document.getElementsByClassName('board')[0].appendChild(treasureElement);
+                    treasureAudio.currentTime = 0;
+                    treasureAudio.play();
+                    setTimeout(function removeTreasure() {
+                        document.getElementsByClassName('board')[0].removeChild(treasureElement);
+                    }, 5000)
+                    heroHP(-10)
                     if (bruceLeeHP <= 0) {
                         heroLoses()
                     }
@@ -794,7 +808,7 @@ function enemyTurn() {
             }
             break;
         case 9:
-            fightText.textContent = 'You dodged that hit in classic Bruce Lee fashion!'
+            fightText.textContent = 'You dodged his hit in classic Bruce Lee fashion!'
             heroHP(0);
             if (bruceLeeHP <= 0) {
                 heroLoses()
@@ -809,9 +823,9 @@ function enemyTurn() {
 function heroWins() {
     document.body.addEventListener('keydown', keyPresses)
     removeEventListeners()
-    fightText.textContent = 'Great work!  Another one down!  Let\'s go smash another!'
-    setTimeout(function() { fightElement.remove() }, 3000)
-    setTimeout(function() { fightText.textContent = '' }, 3000)
+    fightText.textContent = 'Great work!  Another one down!  Watch out for random roadies!  They can get nasty.  Let\'s go smash another!'
+    setTimeout(function() { fightElement.remove() }, 6000)
+    setTimeout(function() { fightText.textContent = '' }, 6000)
     enemyCount()
     enemyHP(0)
 }
@@ -827,7 +841,7 @@ function enemyCount() {
         fightText.textContent = 'Congratulations!  You defeated the Kiss Army!  Try again because winning that showdown once is just never enough!'
         gameplayAudio.pause();
         gameWinAudio.play();
-        gameWinAudio.volume = 0.3
+        gameWinAudio.volume = 0.4
         setTimeout(function() { location.reload() }, 10500);
     }
 }
@@ -848,7 +862,7 @@ function enemyFight(x, y) {
                     appendFightButtons()
                     enemyPopupAudio.currentTime = 0;
                     enemyPopupAudio.play();
-                    setTimeout(heroTurn, 6000)
+                    setTimeout(heroTurn, 8000)
                     break;
                 case 'paul':
                     enemyHP(30);
@@ -856,7 +870,7 @@ function enemyFight(x, y) {
                     appendFightButtons()
                     enemyPopupAudio.currentTime = 0;
                     enemyPopupAudio.play();
-                    setTimeout(heroTurn, 6000)
+                    setTimeout(heroTurn, 8000)
                     break;
                 case 'ace':
                     enemyHP(20);
@@ -864,7 +878,7 @@ function enemyFight(x, y) {
                     appendFightButtons()
                     enemyPopupAudio.currentTime = 0;
                     enemyPopupAudio.play();
-                    setTimeout(heroTurn, 6000)
+                    setTimeout(heroTurn, 8000)
                     break;
                 case 'peter':
                     enemyHP(10);
@@ -872,7 +886,7 @@ function enemyFight(x, y) {
                     appendFightButtons()
                     enemyPopupAudio.currentTime = 0;
                     enemyPopupAudio.play();
-                    setTimeout(heroTurn, 6000)
+                    setTimeout(heroTurn, 8000)
                     break;
 
             }
