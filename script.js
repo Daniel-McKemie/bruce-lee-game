@@ -244,6 +244,7 @@ function changeChestClass(x, y) {
     for (let i = 0; i < chests.length; i++) {
         const chest = chests[i];
         if (chest.x == x && chest.y == y) {
+            document.body.addEventListener('keydown', keyPresses)
             doneChest = document.getElementsByClassName('chest chest-closed');
             doneChest[i].remove()
             chests.splice(i, 1);
@@ -261,6 +262,7 @@ function changeEnemyClass(x, y) {
     for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
         if (enemy.x == x && enemy.y == y) {
+            document.body.addEventListener('keydown', keyPresses)
             doneEnemy = document.getElementsByClassName('enemy enemy-living');
             doneEnemy[i].remove()
             enemies.splice(i, 1);
@@ -284,6 +286,7 @@ function treasureChest(x, y) {
         const chest = chests[i];
         if (chest.x == x && chest.y == y) {
             let diceRoll = Math.floor(Math.random() * 9);
+            document.body.removeEventListener('keydown', keyPresses)
             switch (diceRoll) {
                 case 0:
                     treasureElement.appendChild(treasureText)
@@ -439,6 +442,7 @@ let fightButtonText4 = document.createTextNode('');
 let fightButtonText5 = document.createTextNode('');
 
 function appendFightButtons() {
+    document.body.removeEventListener('keydown', keyPresses)
     fightElement.appendChild(fightText);
     document.getElementsByClassName('board')[0].appendChild(fightElement);
     fightButton1.appendChild(fightButtonText1);
@@ -799,7 +803,7 @@ const moveHeroTo = function(x, y) {
     // CHANGE THIS FOR RESPONSIVENESS (from px to vh/vw)
     if (isChestInCoordinate(x, y)) {
         treasureChest(x, y);
-        changeChestClass(x, y);
+        setTimeout(function() { changeChestClass(x, y) }, 5000);
     }
     if (isEnemyInCoordinate(x, y)) {
         enemyFight(x, y);
@@ -852,7 +856,9 @@ function moveDown() {
 };
 
 // Key commands for movements
-document.body.addEventListener('keydown', function(e) {
+
+document.body.addEventListener('keydown', keyPresses)
+function keyPresses(e) {
     const keyCode = e.keyCode;
     if ([37, 38, 39, 40, 32].includes(keyCode)) {
         e.preventDefault();
@@ -875,4 +881,4 @@ document.body.addEventListener('keydown', function(e) {
             gameplayAudio.volume = 0.2;
             break;
     }
-});
+}
