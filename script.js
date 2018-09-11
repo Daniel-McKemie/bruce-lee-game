@@ -977,7 +977,7 @@ function keyPresses(e) {
             break;
         case 32:
             gameplayMusic();
-            gameplayAudio.volume = 0.2;
+            gameplayAudio.volume = 0.4;
             break;
     }
 }
