@@ -1,5 +1,5 @@
 # Daniel McKemie - Bruce Lee vs. The Kiss Army
-https://www.danielmckemie.com/wdi-project-1-game/index.html
+https://www.danielmckemie.com/bruce-lee-game/index.html
 
 
 ## Description:
