@@ -1,5 +1,5 @@
 # Daniel McKemie - Bruce Lee vs. The Kiss Army
-https://www.danielmckemie.com/bruce-lee-game/index.html
+https://daniel-mckemie.github.io/bruce-lee-game/
 
 
 ## Description:
